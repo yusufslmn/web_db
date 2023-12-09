@@ -40,6 +40,8 @@ dependencies:
   cross_scroll: ^0.0.76
   image_dot_indicator: ^0.0.9
   smooth_page_indicator: ^1.1.0
+  scrollable_positioned_list: ^0.3.8
+  desktop_scrollbar: ^1.0.5
 
 dev_dependencies:
   flutter_test:

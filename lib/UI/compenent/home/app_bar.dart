@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/state/home_riverpod.dart';
 
-class AppBarCustom extends ConsumerWidget {
+class AppBarCustom extends StatelessWidget {
+  final String title;
+
+  final String subtitle;
+
+  final String subtitle2;
+
+  final TextEditingController searchController;
+
   const AppBarCustom({
     super.key,
+    required this.title,
+    required this.subtitle,
+    required this.subtitle2,
+    required this.searchController,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -21,7 +31,7 @@ class AppBarCustom extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                ref.watch(homeProvider).title,
+                title,
                 style: GoogleFonts.poppins(
                   color: PColors.mainColor,
                   fontSize: context.height(0.035),
@@ -32,7 +42,7 @@ class AppBarCustom extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    ref.watch(homeProvider).subtitle,
+                    subtitle,
                     style: GoogleFonts.poppins(
                       color: PColors.mainColor,
                       fontSize: context.height(0.015),
@@ -40,7 +50,7 @@ class AppBarCustom extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    ref.watch(homeProvider).subtitle2,
+                    subtitle2,
                     style: GoogleFonts.poppins(
                       color: PColors.titleGrey,
                       fontSize: context.height(0.015),
@@ -58,7 +68,7 @@ class AppBarCustom extends ConsumerWidget {
               vertical: 8.0, horizontal: context.width(0.05)),
           child: TextFormField(
             maxLines: 1,
-            controller: ref.watch(homeProvider).searchController,
+            controller: searchController,
             decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(

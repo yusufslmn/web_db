@@ -1,48 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/compenent/home/app_bar.dart';
+import 'package:web_db/UI/compenent/common/top_app_bar.dart';
 import 'package:cross_scroll/cross_scroll.dart';
+import 'package:web_db/UI/compenent/home/button_image.dart';
 import 'package:web_db/UI/compenent/home/con_decoration.dart';
-import 'package:web_db/UI/compenent/home/list_category.dart';
-import 'package:web_db/UI/compenent/home/row_colors_top.dart';
+import 'package:web_db/UI/compenent/home/top_seller.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
+import 'package:web_db/core/state/home_state.dart';
 
-class Home extends ConsumerStatefulWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+  static const routeName = '/';
 
   @override
-  ConsumerState<Home> createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends ConsumerState<Home> {
-  List<bool> enter = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-  final PageController pageController = PageController();
-  final ScrollController scrollController = ScrollController();
-  int indexPage = 0;
-
-  void nextPage() async {
-    await pageController.nextPage(
-        duration: const Duration(milliseconds: 10), curve: Curves.bounceInOut);
-  }
-
-  void prePage() async {
-    await pageController.previousPage(
-        duration: const Duration(milliseconds: 10), curve: Curves.bounceInOut);
-  }
-
+class _HomeState extends StateHome {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,52 +28,7 @@ class _HomeState extends ConsumerState<Home> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const AppBarCustom(),
-            const TopRowsColors(),
-            Container(
-                color: PColors.categoryGrey,
-                height: context.height(0.06),
-                width: context.width(1),
-                alignment: Alignment.center,
-                child: ListView.builder(
-                  itemCount: categoryNames.length,
-                  physics: const PageScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => MouseRegion(
-                    cursor: MaterialStateMouseCursor.clickable,
-                    onEnter: (event) {
-                      setState(() {
-                        enter[index] = true;
-                      });
-                    },
-                    onExit: (event) {
-                      setState(() {
-                        enter[index] = false;
-                      });
-                    },
-                    child: SizedBox(
-                      width: context.width(0.08),
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: enter[index]
-                                ? PColors.categoryButton
-                                : PColors.categoryGrey,
-                            shape: const RoundedRectangleBorder()),
-                        onPressed: () {},
-                        child: Text(
-                          categoryNames[index],
-                          softWrap: true,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              wordSpacing: 0.45,
-                              color: Colors.grey.shade800),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                )),
+            const TopAppBar(),
             Container(
               decoration: decorationContainer(),
               width: context.width(1),
@@ -112,57 +42,12 @@ class _HomeState extends ConsumerState<Home> {
                 ],
               ),
             ),
-            SizedBox(
-              width: context.width(1),
-              height: context.height(0.5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: context.width(0.8),
-                    height: context.height(0.1),
-                    child: ListTile(
-                      titleAlignment: ListTileTitleAlignment.center,
-                      title: Text(
-                        "Herkes bu ürünlerin peşinde",
-                        style: GoogleFonts.roboto(
-                            color: PColors.boldGrey,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        "Şu an çok satılıyor",
-                        style: GoogleFonts.roboto(
-                            color: PColors.boldGrey,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: context.width(0.8),
-                    height: context.height(0.4),
-                    child: ListView.builder(
-                      itemCount: 20,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () => Navigator.of(context)
-                            .pushNamed("/page1", arguments: index),
-                        child: Container(
-                          margin: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1.5),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          width: context.width(0.1),
-                          height: context.height(0.4),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+            TopSellerProducts(
+              topSellerController: topSellerController,
             ),
+            SizedBox(
+              height: context.height(0.4),
+            )
           ],
         ),
       ),
@@ -267,10 +152,7 @@ class _HomeState extends ConsumerState<Home> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ButtonImage(
-            pageController: pageController,
-            onPressed: prePage,
-            icon: Icons.arrow_left_rounded),
+        ButtonImage(onPressed: prePage, icon: Icons.arrow_left_rounded),
         SizedBox(
           height: context.height(0.07),
           child: ListView.builder(
@@ -287,9 +169,9 @@ class _HomeState extends ConsumerState<Home> {
                   color: imagesUrl[index] == imagesUrl[indexPage]
                       ? Colors.white
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(4)),
+                  borderRadius: BorderRadius.circular(16)),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: BorderRadius.circular(16),
                 child: Image.network(
                   imagesUrl[index],
                   color: Colors.transparent,
@@ -311,44 +193,8 @@ class _HomeState extends ConsumerState<Home> {
             ),
           ),
         ),
-        ButtonImage(
-            pageController: pageController,
-            onPressed: nextPage,
-            icon: Icons.arrow_right_rounded),
+        ButtonImage(onPressed: nextPage, icon: Icons.arrow_right_rounded),
       ],
-    );
-  }
-}
-
-class ButtonImage extends StatelessWidget {
-  const ButtonImage(
-      {super.key,
-      required this.pageController,
-      required this.onPressed,
-      required this.icon});
-
-  final PageController pageController;
-  final void Function()? onPressed;
-  final IconData? icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8.0),
-      width: context.width(0.035),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-            elevation: 0.0,
-            backgroundColor: Colors.transparent,
-            alignment: Alignment.center,
-            shape: const StadiumBorder(
-                side: BorderSide(color: Colors.white, width: 1.5))),
-        child: Icon(
-          icon,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 }
