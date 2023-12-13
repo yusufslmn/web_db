@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/common/top_app_bar.dart';
 import 'package:web_db/UI/compenent/home/button_image.dart';
 import 'package:web_db/UI/compenent/home/data_example.dart';
+import 'package:web_db/UI/compenent/product/campaign.dart';
+import 'package:web_db/UI/compenent/product/custom_text_style.dart';
+import 'package:web_db/UI/compenent/product/product_rating.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/product_model.dart';
 import 'package:web_db/core/state/product_state.dart';
 
+import '../compenent/product/comments.dart';
+import '../compenent/product/product_property.dart';
+
 class ProductDetail extends StatefulWidget {
-  static const routeName = '/product_detail';
   const ProductDetail({super.key, required this.product});
   final Product product;
 
@@ -17,7 +22,7 @@ class ProductDetail extends StatefulWidget {
   State<ProductDetail> createState() => _ProductDetailState();
 }
 
-class _ProductDetailState extends ProductState {
+class _ProductDetailState extends ProductState with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,25 +59,16 @@ class _ProductDetailState extends ProductState {
                     Expanded(
                       child: Container(
                           color: PColors.productBackContainer,
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ListTile(
-                                title: Text(product.name ?? "Error"),
-                                titleTextStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+                                  title: Text(product.name ?? "Error"),
+                                  titleTextStyle: CustomTextStyle.nameStyle),
                               ListTile(
                                 title: Text("${product.price ?? 00.00},00 TL"),
-                                titleTextStyle: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                titleTextStyle: CustomTextStyle.priceStyle,
                                 trailing: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -80,21 +76,18 @@ class _ProductDetailState extends ProductState {
                                     RatingProduct(
                                       commentRating: commentRating,
                                     ),
-                                    Text(
-                                      "$commentTotal değerlendirme",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    )
+                                    Text("$commentTotal değerlendirme",
+                                        style: CustomTextStyle.commentStyle)
                                   ],
                                 ),
                               ),
                               Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 width: context.width(0.15),
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(8),
                                     border: Border.all(
                                         color: Colors.grey.shade200)),
                                 child: ListTile(
@@ -105,25 +98,255 @@ class _ProductDetailState extends ProductState {
                                   enabled: true,
                                   leading: Text(
                                     "Satıcı:",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 15),
+                                    style: CustomTextStyle.sellerStyle,
                                   ),
                                   title: Text(
-                                    "$seller",
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 15),
+                                    seller,
+                                    style: CustomTextStyle.sellerStyleBlue,
                                   ),
                                 ),
                               ),
+                              Text(
+                                "Renk",
+                                style: CustomTextStyle.sellerStyle,
+                              ),
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey.shade400)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      color,
+                                      style: CustomTextStyle.sellerStyle,
+                                    ),
+                                    SizedBox(
+                                      width: context.width(0.3),
+                                      height: context.height(0.1),
+                                      child: ListView.builder(
+                                        itemCount: colors.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) =>
+                                            InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              color =
+                                                  ColorsName.values[index].name;
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.all(16.0),
+                                            width: context.width(0.08),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: ColorsName
+                                                                .values[index]
+                                                                .name !=
+                                                            color
+                                                        ? Colors.grey.shade400
+                                                        : PColors.mainColor)),
+                                            child: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Image.network(
+                                                      productImages[0]),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    ColorsName
+                                                        .values[index].name,
+                                                    style: TextStyle(
+                                                        fontSize: context
+                                                            .width(0.009)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        width: context.width(0.06),
+                                        height: context.height(0.05),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                      ),
+                                      Positioned(
+                                          left: 0,
+                                          child: SizedBox(
+                                            width: context.width(0.0185),
+                                            child: IconButton(
+                                                style: IconButton.styleFrom(
+                                                    elevation: 0.0,
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                        4),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                        4)))),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    if (total > 1) total--;
+                                                  });
+                                                },
+                                                icon: Icon(
+                                                  Icons.horizontal_rule_rounded,
+                                                  size: context.width(0.01),
+                                                )),
+                                          )),
+                                      Positioned(
+                                          right: 0,
+                                          child: SizedBox(
+                                            width: context.width(0.0185),
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    total++;
+                                                  });
+                                                },
+                                                style: IconButton.styleFrom(
+                                                    elevation: 0.0,
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                        4),
+                                                                bottomRight: Radius
+                                                                    .circular(
+                                                                        4)))),
+                                                icon: Icon(
+                                                  Icons.add,
+                                                  size: context.width(0.01),
+                                                )),
+                                          )),
+                                      Positioned(
+                                        left: context.width(0.0185),
+                                        top: context.height(0.0025),
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: context.width(0.023),
+                                          height: context.height(0.045),
+                                          alignment: Alignment.center,
+                                          child: Text("$total\nAdet",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                              textAlign: TextAlign.center),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    width: context.width(0.1),
+                                    height: context.height(0.05),
+                                    child: ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
+                                            alignment: Alignment.center,
+                                            backgroundColor: PColors.mainColor),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Icon(
+                                              Icons.add_shopping_cart_rounded,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              "Sepete Ekle",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              const Divider(),
+                              Row(
+                                children: [
+                                  TextButton.icon(
+                                      onPressed: () {},
+                                      icon: const Icon(
+                                          Icons.favorite_border_outlined),
+                                      label: const Text("Beğen")),
+                                  TextButton.icon(
+                                      onPressed: () {},
+                                      icon: const Icon(
+                                          Icons.compare_arrows_outlined),
+                                      label: const Text("Karşılaştır")),
+                                ],
+                              )
                             ],
                           )),
                     ),
                   ],
                 )),
+            Container(
+              width: context.width(0.4),
+              margin: EdgeInsets.symmetric(
+                  vertical: 20, horizontal: context.width(0.15)),
+              child: TabBar(
+                  onTap: (value) {
+                    bottomTabController.animateToPage(value,
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.linear);
+                  },
+                  controller: TabController(vsync: this, length: 3),
+                  tabs: const [
+                    Text("Yorumlar"),
+                    Text("Ürün Açıklaması"),
+                    Text("Kampanyalar"),
+                  ]),
+            ),
+            Container(
+              width: context.width(0.7),
+              margin: EdgeInsets.symmetric(
+                  vertical: 20, horizontal: context.width(0.15)),
+              height: context.height(1),
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: bottomTabController,
+                children: const [
+                  Comments(),
+                  ProductProperty(),
+                  Campaign(),
+                ],
+              ),
+            )
           ],
         )),
       ),
@@ -233,52 +456,4 @@ class _ProductDetailState extends ProductState {
       ),
     );
   }
-}
-
-class RatingProduct extends StatelessWidget {
-  const RatingProduct({
-    super.key,
-    required this.commentRating,
-  });
-  final double commentRating;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "4.7",
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-        ),
-        Icon(
-          Icons.star_half_outlined,
-          color: PColors.mainColor,
-        ),
-      ],
-    );
-  }
-}
-
-class ProductDetailsArguments {
-  final Product product;
-
-  ProductDetailsArguments(this.product);
 }

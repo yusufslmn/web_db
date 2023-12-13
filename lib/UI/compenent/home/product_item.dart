@@ -6,6 +6,7 @@ import 'package:web_db/UI/compenent/home/top_seller.dart';
 import 'package:web_db/UI/view/product_detail.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/product_model.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key, required this.product, required this.index});
@@ -15,10 +16,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          ProductDetail.routeName,
-          arguments: ProductDetailsArguments(product),
-        );
+        push(context, ProductDetail(product: product));
       },
       child: Container(
         margin: const EdgeInsets.all(6),

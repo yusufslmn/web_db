@@ -43,7 +43,7 @@ List<Product> productList = [
       brandId: 12,
       categoryId: 12,
       description: "loremloremloremlorem",
-      name: "lorem lorem lorem lorem 3",
+      name: "Salih Usta",
       price: 40.00,
       sellerId: 2,
       stockQuantity: 150),
