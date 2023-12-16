@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:web_db/UI/view/basket.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 
 class AppBarCustom extends StatelessWidget {
   final String title;
@@ -101,7 +103,7 @@ class AppBarCustom extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8))),
               onPressed: () {
-                Navigator.of(context).pushNamed("/page1");
+                pushToPage(context, const Basket());
               },
               child: const Icon(
                 Icons.shopping_cart,

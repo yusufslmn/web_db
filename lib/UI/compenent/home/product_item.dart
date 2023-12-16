@@ -16,7 +16,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        push(context, ProductDetail(product: product));
+        pushToPage(context, ProductDetail(product: product));
       },
       child: Container(
         margin: const EdgeInsets.all(6),

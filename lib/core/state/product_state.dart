@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/view/product_detail.dart';
 import 'package:web_db/core/model/product_model.dart';
 
-abstract class ProductState extends State<ProductDetail> {
+abstract class ProductState extends ConsumerState<ProductDetail> {
   Product product = Product();
   ScrollController controller = ScrollController();
-  PageController pageController = PageController();
   PageController bottomTabController = PageController();
-  int indexPage = 0;
   int commentTotal = 4;
-  int total = 1;
   String seller = "Hepsiburada";
-  String color = "Mavi";
   String temp = "default";
   double commentRating = 4;
-  List<Color?> colors = [Colors.blue, Colors.green, Colors.deepPurple];
 
   @override
   void initState() {
     product = widget.product;
     super.initState();
   }
+}
+
+// ignore: constant_identifier_names
+enum ColorsName { Mavi, Yesil, Mor }
+
+class ProductNotifier extends ChangeNotifier {
+  int indexPage = 0;
+  String color = "Mavi";
+  List<Color?> colors = [Colors.blue, Colors.green, Colors.deepPurple];
+  List<Product>? compareList;
+  PageController pageController = PageController();
 
   void nextImage() async {
     await pageController.nextPage(
@@ -33,5 +40,6 @@ abstract class ProductState extends State<ProductDetail> {
   }
 }
 
-// ignore: constant_identifier_names
-enum ColorsName { Mavi, Yesil, Mor }
+final productProvider = ChangeNotifierProvider<ProductNotifier>((ref) {
+  return ProductNotifier();
+});
