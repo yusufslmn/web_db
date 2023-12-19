@@ -12,7 +12,6 @@ import 'package:web_db/core/state/home_state.dart';
 class Home extends StatefulWidget {
   const Home({super.key});
   static const routeName = '/';
-
   @override
   State<Home> createState() => _HomeState();
 }

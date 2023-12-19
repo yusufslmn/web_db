@@ -32,11 +32,13 @@ class ProductNotifier extends ChangeNotifier {
   void nextImage() async {
     await pageController.nextPage(
         duration: const Duration(milliseconds: 10), curve: Curves.bounceInOut);
+    notifyListeners();
   }
 
   void preImage() async {
     await pageController.previousPage(
         duration: const Duration(milliseconds: 10), curve: Curves.bounceInOut);
+    notifyListeners();
   }
 }
 

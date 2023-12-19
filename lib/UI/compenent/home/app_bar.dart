@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hover_menu/hover_menu.dart';
 import 'package:web_db/UI/view/basket.dart';
+import 'package:web_db/UI/view/home.dart';
+import 'package:web_db/UI/view/profile.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/settings/route_settings.dart';
@@ -32,12 +35,15 @@ class AppBarCustom extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: GoogleFonts.poppins(
-                  color: PColors.mainColor,
-                  fontSize: context.height(0.035),
-                  fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () => pushToPage(context, const Home()),
+                child: Text(
+                  title,
+                  style: GoogleFonts.poppins(
+                    color: PColors.mainColor,
+                    fontSize: context.height(0.035),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Row(
@@ -110,22 +116,43 @@ class AppBarCustom extends StatelessWidget {
                 color: PColors.mainColor,
               )),
         ),
-        Container(
-          width: context.width(0.1),
-          margin: EdgeInsets.all(context.height(0.01)),
-          child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  alignment: Alignment.center,
-                  backgroundColor: Colors.orange.shade100,
-                  fixedSize: Size(context.width(0.05), context.height(0.06)),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8))),
-              onPressed: () {},
-              child: const Icon(
-                Icons.account_circle_rounded,
-                color: PColors.mainColor,
-              )),
-        ),
+        HoverMenu(
+          title: Container(
+            width: context.width(0.1),
+            margin: EdgeInsets.all(context.height(0.01)),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    alignment: Alignment.center,
+                    backgroundColor: Colors.orange.shade100,
+                    fixedSize: Size(context.width(0.05), context.height(0.06)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8))),
+                onPressed: () {
+                  pushToPage(context, const Profile());
+                },
+                child: const Icon(
+                  Icons.account_circle_rounded,
+                  color: PColors.mainColor,
+                )),
+          ),
+          items: [
+            ListTile(
+              onTap: () {},
+              title: Text("Siparişlerim"),
+              tileColor: Colors.white,
+            ),
+            ListTile(
+              onTap: () {},
+              title: Text("Favorilerim"),
+              tileColor: Colors.white,
+            ),
+            ListTile(
+              onTap: () {},
+              title: Text("Kuponlarım"),
+              tileColor: Colors.white,
+            ),
+          ],
+        )
       ],
     );
   }

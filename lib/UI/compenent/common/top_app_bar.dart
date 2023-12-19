@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/home/app_bar.dart';
 import 'package:web_db/UI/compenent/home/list_category.dart';
 import 'package:web_db/UI/compenent/home/row_colors_top.dart';
+import 'package:web_db/UI/view/category.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 
 class TopAppBar extends StatefulWidget {
   const TopAppBar({super.key});
@@ -73,7 +75,13 @@ class _TopAppBarState extends State<TopAppBar> {
                             ? PColors.categoryButton
                             : PColors.categoryGrey,
                         shape: const RoundedRectangleBorder()),
-                    onPressed: () {},
+                    onPressed: () {
+                      pushToPage(
+                          context,
+                          Category(
+                            title: categoryNames[index],
+                          ));
+                    },
                     child: Text(
                       categoryNames[index],
                       softWrap: true,
