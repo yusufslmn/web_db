@@ -47,11 +47,11 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                     labelColor: PColors.mainColor,
                     indicatorColor: PColors.mainColor,
                     controller: TabController(length: 4, vsync: this),
-                    tabs: [
-                      const Text("Üyelik Bilgilerim"),
-                      const Text("Şifre Değişikliği"),
-                      const Text("Kayıtlı Kartlarım"),
-                      const Text("Adreslerim"),
+                    tabs: const [
+                      Text("Üyelik Bilgilerim"),
+                      Text("Şifre Değişikliği"),
+                      Text("Kayıtlı Kartlarım"),
+                      Text("Adreslerim"),
                     ]),
               ),
               SizedBox(
@@ -231,6 +231,7 @@ class AddToCard extends StatefulWidget {
   }) : super(key: key);
   final PageController controller;
   @override
+  // ignore: library_private_types_in_public_api
   _AddToCardState createState() => _AddToCardState();
 }
 
@@ -305,7 +306,7 @@ class _AddToCardState extends State<AddToCard> {
                   onChanged: (value) {
                     final newCardNumber = value.trim();
                     var newStr = '';
-                    final step = 4;
+                    const step = 4;
 
                     for (var i = 0; i < newCardNumber.length; i += step) {
                       newStr += newCardNumber.substring(
@@ -337,9 +338,8 @@ class _AddToCardState extends State<AddToCard> {
                     if (newDateValue.length >= 2 &&
                         !containsSlash &&
                         !isPressingBackspace) {
-                      newDateValue = newDateValue.substring(0, 2) +
-                          '/' +
-                          newDateValue.substring(2);
+                      newDateValue =
+                          '${newDateValue.substring(0, 2)}/${newDateValue.substring(2)}';
                     }
                     setState(() {
                       expiryFieldCtrl.text = newDateValue;

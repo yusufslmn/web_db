@@ -116,43 +116,54 @@ class AppBarCustom extends StatelessWidget {
                 color: PColors.mainColor,
               )),
         ),
-        HoverMenu(
-          title: Container(
-            width: context.width(0.1),
-            margin: EdgeInsets.all(context.height(0.01)),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    alignment: Alignment.center,
-                    backgroundColor: Colors.orange.shade100,
-                    fixedSize: Size(context.width(0.05), context.height(0.06)),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                onPressed: () {
-                  pushToPage(context, const Profile());
-                },
-                child: const Icon(
-                  Icons.account_circle_rounded,
-                  color: PColors.mainColor,
-                )),
-          ),
-          items: [
-            ListTile(
-              onTap: () {},
-              title: Text("Siparişlerim"),
-              tileColor: Colors.white,
-            ),
-            ListTile(
-              onTap: () {},
-              title: Text("Favorilerim"),
-              tileColor: Colors.white,
-            ),
-            ListTile(
-              onTap: () {},
-              title: Text("Kuponlarım"),
-              tileColor: Colors.white,
-            ),
-          ],
-        )
+        const HoverButton()
+      ],
+    );
+  }
+}
+
+class HoverButton extends StatelessWidget {
+  const HoverButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return HoverMenu(
+      title: Container(
+        width: context.width(0.1),
+        margin: EdgeInsets.all(context.height(0.01)),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                alignment: Alignment.center,
+                backgroundColor: Colors.orange.shade100,
+                fixedSize: Size(context.width(0.05), context.height(0.06)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8))),
+            onPressed: () {
+              pushToPage(context, const Profile());
+            },
+            child: const Icon(
+              Icons.account_circle_rounded,
+              color: PColors.mainColor,
+            )),
+      ),
+      items: [
+        ListTile(
+          onTap: () {},
+          title: const Text("Siparişlerim"),
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          onTap: () {},
+          title: const Text("Favorilerim"),
+          tileColor: Colors.white,
+        ),
+        ListTile(
+          onTap: () {},
+          title: const Text("Kuponlarım"),
+          tileColor: Colors.white,
+        ),
       ],
     );
   }
