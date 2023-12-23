@@ -18,6 +18,7 @@ class _BasketState extends StateBasket {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PColors.productBackContainer,
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -40,12 +41,13 @@ class _BasketState extends StateBasket {
                           SizedBox(
                             height: context.height(0.8),
                             child: ListView.builder(
-                              itemCount: ref.read(basketProvider).basket.length,
+                              itemCount:
+                                  ref.watch(basketProvider).basket.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                     margin:
                                         const EdgeInsets.symmetric(vertical: 8),
-                                    color: PColors.productBackContainer,
+                                    color: Colors.white,
                                     height: context.height(0.25),
                                     child: Column(
                                       children: [
@@ -56,8 +58,8 @@ class _BasketState extends StateBasket {
                                             title: Text("Hepsibunda"),
                                           ),
                                         ),
-                                        const Divider(
-                                          color: Colors.white,
+                                        Divider(
+                                          color: PColors.productBackContainer,
                                         ),
                                         const Expanded(
                                           flex: 2,
@@ -211,19 +213,39 @@ class AddToCoupon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: ListTile(
-        tileColor: PColors.productBackContainer,
-        leading: TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.add_circle_outline_outlined,
-              color: PColors.mainColor,
-            ),
-            label: const Text(
-              "Kupon Ekle",
-              style: TextStyle(color: PColors.mainColor),
-            )),
-      ),
+      child: ExpansionTile(
+          collapsedBackgroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(color: PColors.productBackContainer)),
+          leading: TextButton.icon(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.add_circle_outline_outlined,
+                color: PColors.mainColor,
+              ),
+              label: const Text(
+                "Kupon Ekle",
+                style: TextStyle(color: PColors.mainColor),
+              )),
+          title: SizedBox.shrink(),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                          BorderSide(color: PColors.productBackContainer)),
+                  labelText: "Kupon Kodu",
+                  suffixIcon: IconButton(
+                      onPressed: () {}, icon: Icon(Icons.add_box_sharp)),
+                ),
+              ),
+            )
+          ]),
     );
   }
 }
@@ -239,8 +261,7 @@ class BasketTotalContainer extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-          color: PColors.productBackContainer,
-          borderRadius: BorderRadius.circular(8)),
+          color: Colors.white, borderRadius: BorderRadius.circular(8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -307,7 +328,7 @@ class BasketTop extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: PColors.productBackContainer,
+      color: Colors.white,
       width: context.width(1),
       margin: const EdgeInsets.symmetric(vertical: 2),
       alignment: Alignment.center,
@@ -332,7 +353,9 @@ class BasketTop extends ConsumerWidget {
               style: TextButton.styleFrom(
                 iconColor: PColors.mainColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                ref.watch(basketProvider).basket.clear();
+              },
               icon: const Icon(Icons.delete),
               label: const Text(
                 "Ürünleri Sil",

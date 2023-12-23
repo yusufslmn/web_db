@@ -17,130 +17,150 @@ class _LoginState extends StateLogin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: formKey,
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Spacer(flex: 2),
-                Text(
-                  "Hepsibunda",
-                  style: GoogleFonts.poppins(
-                    color: PColors.mainColor,
-                    fontSize: context.height(0.035),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Spacer(flex: 4),
-                Container(
-                  padding: const EdgeInsets.all(50),
-                  width: context.width(0.3),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.shade300,
-                      ),
-                      borderRadius: BorderRadius.circular(8)),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
+                child: Center(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: context.width(0.25),
-                        child: TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                              labelText: 'Email',
-                              prefixIcon: const Icon(Icons.person),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: PColors.mainColor))),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your Email';
-                            }
-                            return null;
-                          },
+                      const Spacer(flex: 2),
+                      Text(
+                        "Hepsibunda",
+                        style: GoogleFonts.poppins(
+                          color: PColors.mainColor,
+                          fontSize: context.height(0.035),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: context.width(0.25),
-                        child: TextFormField(
-                          controller: passwordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: const Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                  borderSide: const BorderSide(
-                                      color: PColors.mainColor))),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your password';
-                            }
-                            if (value.length <= 6) {
-                              return 'Please enter your password';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      SizedBox(
-                        width: context.width(0.25),
-                        height: context.height(0.07),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              backgroundColor: PColors.mainColor),
-                          onPressed: handleLogin,
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                      const Spacer(flex: 4),
                       Container(
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          alignment: Alignment.center,
-                          child: Row(
-                            children: [
-                              TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "Şifremi Unuttum",
-                                    style: TextStyle(
-                                        fontSize: 15, color: PColors.mainColor),
-                                  )),
-                              const Spacer(),
-                              TextButton(
-                                  onPressed: () => pushToPage(
-                                      context, const RegistrationScreen()),
-                                  child: const Text(
-                                    "Üye Ol",
-                                    style: TextStyle(
-                                        fontSize: 15, color: PColors.mainColor),
-                                  )),
-                            ],
-                          ))
+                        padding: const EdgeInsets.all(50),
+                        width: context.width(0.3),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                            ),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              width: context.width(0.25),
+                              child: TextFormField(
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                    labelText: 'Email',
+                                    prefixIcon: const Icon(Icons.person),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                            color: PColors.mainColor))),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your Email';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              width: context.width(0.25),
+                              child: TextFormField(
+                                controller: passwordController,
+                                obscureText: isPrivate,
+                                decoration: InputDecoration(
+                                    labelText: 'Password',
+                                    suffixIcon: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            isPrivate = !isPrivate;
+                                          });
+                                        },
+                                        icon: isPrivate
+                                            ? const Icon(Icons.visibility)
+                                            : const Icon(Icons.visibility_off)),
+                                    prefixIcon: const Icon(Icons.lock),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                        borderSide: const BorderSide(
+                                            color: PColors.mainColor))),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your password';
+                                  }
+                                  if (value.length < 6) {
+                                    return '6 karakterden uzun şifre giriniz';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            SizedBox(
+                              width: context.width(0.25),
+                              height: context.height(0.07),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                    backgroundColor: PColors.mainColor),
+                                onPressed: handleLogin,
+                                child: const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: const Text(
+                                          "Şifremi Unuttum",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: PColors.mainColor),
+                                        )),
+                                    const Spacer(),
+                                    TextButton(
+                                        onPressed: () => pushToPage(context,
+                                            const RegistrationScreen()),
+                                        child: const Text(
+                                          "Üye Ol",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: PColors.mainColor),
+                                        )),
+                                  ],
+                                ))
+                          ],
+                        ),
+                      ),
+                      const Spacer(
+                        flex: 4,
+                      )
                     ],
                   ),
                 ),
-                const Spacer(
-                  flex: 4,
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailController.clear();
+    passwordController.clear();
+    super.dispose();
   }
 }

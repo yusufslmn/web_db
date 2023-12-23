@@ -21,6 +21,6 @@ Future<bool> login({required String basicAuth}) async {
   return false;
 }
 
-String decodeEmailPassword({required String email, required String password}) {
+String encodeEmailPassword({required String email, required String password}) {
   return base64.encode(utf8.encode('$email:$password'));
 }

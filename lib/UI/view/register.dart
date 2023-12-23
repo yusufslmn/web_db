@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:web_db/UI/compenent/login/date_button.dart';
+import 'package:web_db/UI/view/login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:intl/intl.dart';
 import 'package:web_db/core/model/login_model.dart';
 import 'package:web_db/core/service/login/reg_service.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -44,7 +46,22 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           name: _nameController.text,
           surname: _surnameController.text,
           password: _passwordController.text);
-      await register(loginModel!);
+      if (await register(loginModel!)) {
+        // ignore: use_build_context_synchronously
+        pushReplacement(context, const Login());
+      } else {
+        // ignore: use_build_context_synchronously
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+              title: const Text("Kayıt olunamadı tekrar deneyiz"),
+              actions: [
+                ElevatedButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Tamam"))
+              ]),
+        );
+      }
     }
     _changeLoading();
   }

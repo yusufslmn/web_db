@@ -13,6 +13,11 @@ class RowIndicator extends ConsumerStatefulWidget {
 
 class _RowIndicatorState extends ConsumerState<RowIndicator> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),

@@ -26,7 +26,7 @@ class _CategoryState extends State<Category> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
               child: Text(
                 widget.title,
-                style: TextStyle(
+                style: const TextStyle(
                     color: PColors.mainColor,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
@@ -43,7 +43,9 @@ class _CategoryState extends State<Category> {
                       child: Column(
                         children: [
                           DropdownButton(
-                            items: [DropdownMenuItem(child: Text("Deneme"))],
+                            items: const [
+                              DropdownMenuItem(child: Text("Deneme"))
+                            ],
                             onChanged: (value) {},
                           )
                         ],
