@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/view/product_detail.dart';
-import 'package:web_db/core/model/product_model.dart';
+import 'package:web_db/core/model/product_detail_model.dart';
+import 'package:web_db/core/model/showroom_product_model.dart';
+import 'package:web_db/core/service/product/get_product_detail.dart';
 
 abstract class ProductState extends ConsumerState<ProductDetail> {
-  Product product = Product();
   ScrollController controller = ScrollController();
   PageController bottomTabController = PageController();
-  int commentTotal = 4;
-  String seller = "Hepsiburada";
   String temp = "default";
-  double commentRating = 4;
+  bool isLoading = false;
+  ProductDetailModel? productDetailModel;
+  void _changeLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
+  Future<void> fetchProduct(int id) async {
+    _changeLoading();
+    productDetailModel = await fetchProductDetail(id);
+    _changeLoading();
+  }
 
   @override
   void initState() {
-    product = widget.product;
+    fetchProduct(widget.id);
+
     super.initState();
   }
 }
@@ -26,7 +38,7 @@ class ProductNotifier extends ChangeNotifier {
   int indexPage = 0;
   String color = "Mavi";
   List<Color?> colors = [Colors.blue, Colors.green, Colors.deepPurple];
-  List<Product>? compareList;
+  List<ShowroomProduct>? compareList;
   PageController pageController = PageController();
 
   void nextImage() async {

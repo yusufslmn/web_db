@@ -1,7 +1,3 @@
-import 'package:awesome_card/credit_card.dart';
-import 'package:awesome_card/extra/card_type.dart';
-import 'package:awesome_card/extra/helper.dart';
-import 'package:awesome_card/style/card_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/common/top_app_bar.dart';
@@ -11,9 +7,7 @@ import 'package:web_db/UI/view/uptade_password.dart';
 import 'package:web_db/UI/view/user_info.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/service/service.dart';
 import 'package:web_db/core/state/profile_state.dart';
-import 'dart:math' as math;
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({super.key});

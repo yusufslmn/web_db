@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/compenent/common/top_app_bar.dart';
 import 'package:web_db/UI/view/basket.dart';
 import 'package:web_db/UI/view/home.dart';
 import 'package:web_db/core/Utility/colors.dart';
@@ -44,12 +43,12 @@ class _BuyingState extends ConsumerState<Buying> {
                     children: [
                       Card(
                         color: Colors.white,
-                        shape: RoundedRectangleBorder(),
+                        shape: const RoundedRectangleBorder(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "Teslimat Adresim",
                                 style: TextStyle(
@@ -66,15 +65,15 @@ class _BuyingState extends ConsumerState<Buying> {
                                 });
                               },
                               leading: isSelectKargo1
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.adjust_outlined,
                                       color: PColors.mainColor,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.circle_outlined,
                                       color: PColors.mainColor,
                                     ),
-                              title: Text(
+                              title: const Text(
                                 "Adresime Gönder",
                                 style: TextStyle(
                                     color: Colors.black,
@@ -89,15 +88,15 @@ class _BuyingState extends ConsumerState<Buying> {
                                 });
                               },
                               leading: isSelectKargo2
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.adjust_outlined,
                                       color: PColors.mainColor,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.circle_outlined,
                                       color: PColors.mainColor,
                                     ),
-                              title: Text(
+                              title: const Text(
                                 "Teslimat Noktasına Gönder",
                                 style: TextStyle(
                                     color: Colors.black,
@@ -109,12 +108,12 @@ class _BuyingState extends ConsumerState<Buying> {
                       ),
                       Card(
                         color: Colors.white,
-                        shape: RoundedRectangleBorder(),
+                        shape: const RoundedRectangleBorder(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+                            const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "Ödeme Seçenekleri",
                                 style: TextStyle(
@@ -131,15 +130,15 @@ class _BuyingState extends ConsumerState<Buying> {
                                 });
                               },
                               leading: isSelectedPay1
-                                  ? Icon(
+                                  ? const Icon(
                                       Icons.adjust_outlined,
                                       color: PColors.mainColor,
                                     )
-                                  : Icon(
+                                  : const Icon(
                                       Icons.circle_outlined,
                                       color: PColors.mainColor,
                                     ),
-                              title: Text(
+                              title: const Text(
                                 "Kapıda Ödeme",
                                 style: TextStyle(
                                     color: Colors.black,
@@ -151,7 +150,7 @@ class _BuyingState extends ConsumerState<Buying> {
                       )
                     ],
                   )),
-              Expanded(flex: 2, child: BuyingTotalContainer())
+              const Expanded(flex: 2, child: BuyingTotalContainer())
             ],
           ),
         ),
@@ -167,7 +166,7 @@ class _BuyingState extends ConsumerState<Buying> {
         onTap: () => pushToPage(context, const Home()),
         child: Container(
           alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 32),
           child: Text(
             "hepsibunda",
             textAlign: TextAlign.left,
@@ -181,11 +180,11 @@ class _BuyingState extends ConsumerState<Buying> {
       ),
       title: TextButton.icon(
           onPressed: () {},
-          icon: Icon(
+          icon: const Icon(
             Icons.security,
             color: Colors.green,
           ),
-          label: Text(
+          label: const Text(
             "Güvenli Alışveriş",
             style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
           )),
@@ -194,8 +193,8 @@ class _BuyingState extends ConsumerState<Buying> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: CircleAvatar(
             radius: context.height(0.025),
-            child: Text("YS"),
             backgroundColor: Colors.grey.shade300,
+            child: const Text("YS"),
           ),
         )
       ],
@@ -220,7 +219,7 @@ class BuyingTotalContainer extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "SEPETTEKİ ÜRÜNLER (${ref.read(basketProvider).basket.length})",
+            "SEPETTEKİ ÜRÜNLER ()",
             style: const TextStyle(
                 color: PColors.mainColor,
                 fontSize: 12,
@@ -230,7 +229,7 @@ class BuyingTotalContainer extends ConsumerWidget {
             flex: 1,
           ),
           Text(
-            "${ref.read(basketProvider).toplam()} TL",
+            " TL",
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const Spacer(
@@ -257,7 +256,7 @@ class BuyingTotalContainer extends ConsumerWidget {
             flex: 1,
           ),
           CustomListTileText(
-            price: ref.read(basketProvider).toplam(),
+            price: 100.00,
             title: "Ürünler:",
           ),
           const CustomListTileText(

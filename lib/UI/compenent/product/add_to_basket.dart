@@ -2,18 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/product_model.dart';
-import 'package:web_db/core/state/basket_state.dart';
+import 'package:web_db/core/model/add_basket_modal.dart';
+import 'package:web_db/core/service/basket/add_basket_service.dart';
 
 class AddToBasket extends ConsumerStatefulWidget {
-  const AddToBasket({super.key, required this.product});
-  final Product product;
+  const AddToBasket({super.key, required this.productId});
+  final int productId;
   @override
   ConsumerState<AddToBasket> createState() => _AddToBasketState();
 }
 
 class _AddToBasketState extends ConsumerState<AddToBasket> {
-  int total = 1;
+  bool isLoading = false;
+  AddBasketModel addToBasketItem = AddBasketModel();
+
+  void _changeLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  int quantity = 1;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -40,7 +55,7 @@ class _AddToBasketState extends ConsumerState<AddToBasket> {
                                   bottomLeft: Radius.circular(4)))),
                       onPressed: () {
                         setState(() {
-                          if (total > 1) total--;
+                          if (quantity > 1) quantity--;
                         });
                       },
                       icon: Icon(
@@ -55,7 +70,7 @@ class _AddToBasketState extends ConsumerState<AddToBasket> {
                   child: IconButton(
                       onPressed: () {
                         setState(() {
-                          total++;
+                          quantity++;
                         });
                       },
                       style: IconButton.styleFrom(
@@ -77,7 +92,7 @@ class _AddToBasketState extends ConsumerState<AddToBasket> {
                 width: context.width(0.023),
                 height: context.height(0.045),
                 alignment: Alignment.center,
-                child: Text("$total\nAdet",
+                child: Text("$quantity\nAdet",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center),
               ),
@@ -88,31 +103,64 @@ class _AddToBasketState extends ConsumerState<AddToBasket> {
           margin: const EdgeInsets.symmetric(horizontal: 8),
           width: context.width(0.1),
           height: context.height(0.05),
-          child: ElevatedButton(
-              onPressed: () {
-                ref.read(basketProvider).basket.add(widget.product);
-              },
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4)),
-                  alignment: Alignment.center,
-                  backgroundColor: PColors.mainColor),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Icon(
-                    Icons.add_shopping_cart_rounded,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "Sepete Ekle",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              )),
+          child: isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ElevatedButton(
+                  onPressed: () async {
+                    _changeLoading();
+                    addToBasketItem = AddBasketModel(
+                        productId: widget.productId, quantity: quantity);
+                    await addToBasket(addToBasketItem).then((value) {
+                      if (value) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child:
+                                            const Text("Alışverişe Devam et"))
+                                  ],
+                                  title: const Text("Ürün Sepete Eklendi"),
+                                ));
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("Tekrar Deneyiniz"))
+                                  ],
+                                  title: const Text("Ürün Sepete Eklenemedi"),
+                                ));
+                      }
+                    });
+                    _changeLoading();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4)),
+                      alignment: Alignment.center,
+                      backgroundColor: PColors.mainColor),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Icon(
+                        Icons.add_shopping_cart_rounded,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "Sepete Ekle",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )),
         ),
       ],
     );

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:web_db/UI/view/home.dart';
-import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 
 class MyOrders extends StatefulWidget {
@@ -58,17 +56,10 @@ class _MyOrdersState extends State<MyOrders> {
             padding: const EdgeInsets.all(8.0),
             child: ExpansionTile(
               collapsedShape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.grey),
+                  side: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10)),
-              children: [
-                Container(
-                  height: context.height(0.3),
-                  width: context.width(0.5),
-                  color: Colors.orange,
-                )
-              ],
               shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.grey),
+                  side: const BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(10)),
               subtitle: Text(DateFormat('yyyy-MM-dd hh:mm:ss')
                   .format(orders[index].orderDate)),
@@ -82,10 +73,10 @@ class _MyOrdersState extends State<MyOrders> {
                   ),
                   Text(
                     orders[index].orderId,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -97,13 +88,13 @@ class _MyOrdersState extends State<MyOrders> {
                         children: [
                           Text(
                             "${orders[index].price} TL",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green),
                           ),
                           Text(
-                            "${orders[index].payment}",
+                            orders[index].payment,
                             style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.grey.shade500,
@@ -115,6 +106,13 @@ class _MyOrdersState extends State<MyOrders> {
                   ),
                 ],
               ),
+              children: [
+                Container(
+                  height: context.height(0.3),
+                  width: context.width(0.5),
+                  color: Colors.orange,
+                )
+              ],
             ),
           );
         },

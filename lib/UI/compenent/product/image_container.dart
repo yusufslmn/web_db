@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/home/button_image.dart';
 import 'package:web_db/UI/compenent/home/data_example.dart';
-import 'package:web_db/UI/compenent/product/row_indicator_image.dart';
+import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import '../../../core/state/product_state.dart';
 
 class ImageContainer extends ConsumerStatefulWidget {
-  const ImageContainer({super.key});
-
+  const ImageContainer({super.key, required this.pictures});
+  final List<dynamic>? pictures;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ImageContainerState();
 }
@@ -32,7 +32,7 @@ class _ImageContainerState extends ConsumerState<ImageContainer> {
                     width: context.width(0.35),
                     child: PageView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: productDetailImages.length,
+                        itemCount: widget.pictures?.length,
                         controller: ref.watch(productProvider).pageController,
                         onPageChanged: (value) {
                           setState(() {
@@ -43,7 +43,7 @@ class _ImageContainerState extends ConsumerState<ImageContainer> {
                           return ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
-                              productDetailImages[index],
+                              widget.pictures?[index],
                               fit: BoxFit.cover,
                               loadingBuilder: (BuildContext context,
                                   Widget child,
@@ -80,7 +80,61 @@ class _ImageContainerState extends ConsumerState<ImageContainer> {
                           icon: Icons.arrow_right_rounded)),
                 ],
               )),
-          const Expanded(flex: 2, child: RowIndicator()),
+          Expanded(
+              flex: 2,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 30),
+                child: SizedBox(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.pictures?.length,
+                    itemBuilder: (context, index) => InkWell(
+                      onTap: () => ref
+                          .read(productProvider)
+                          .pageController
+                          .jumpToPage(index),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: widget.pictures?[index] ==
+                                widget.pictures?[
+                                    ref.watch(productProvider).indexPage]
+                            ? const EdgeInsets.all(2)
+                            : EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                            color: productDetailImages[index] ==
+                                    productDetailImages[
+                                        ref.read(productProvider).indexPage]
+                                ? PColors.mainColor
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(4)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: Image.network(
+                            widget.pictures?[index],
+                            color: Colors.transparent,
+                            fit: BoxFit.contain,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )),
         ],
       ),
     );

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/common/top_app_bar.dart';
-import 'package:web_db/UI/compenent/home/data_example.dart';
 import 'package:web_db/UI/compenent/home/product_item.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
+import 'package:web_db/core/model/showroom_product_model.dart';
 
 class Category extends StatefulWidget {
   const Category({super.key, required this.title});
@@ -58,14 +58,14 @@ class _CategoryState extends State<Category> {
                     height: context.height(1),
                     child: GridView.builder(
                       padding: const EdgeInsets.all(16),
-                      itemCount: productList.length,
+                      itemCount: 8,
                       physics: const PageScrollPhysics(),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4),
                       itemBuilder: (context, index) => ProductItem(
                         index: index,
-                        product: productList[index],
+                        product: ShowroomProduct(),
                       ),
                     ),
                   ),

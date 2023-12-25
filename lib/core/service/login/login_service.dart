@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:web_db/core/service/service.dart';
 
 Future<bool> login({required String basicAuth}) async {
-  final url = Uri.parse('https://ditsat.com/api/Login/CheckUser');
   final headers = {
     'Content-Type': 'application/json',
     'Authorization': basicAuth
@@ -11,11 +11,12 @@ Future<bool> login({required String basicAuth}) async {
 
   try {
     final response = await http.get(
-      url,
+      IService.url(ApiRouteName.login.name),
       headers: headers,
     );
     return response.statusCode == HttpStatus.ok;
   } on HttpException catch (e) {
+    // ignore: avoid_print
     print(e.message);
   }
   return false;

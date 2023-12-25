@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +30,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   bool? isGender;
   bool _isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  LoginModel? loginModel;
+  RegisterModal? loginModel;
   void _changeLoading() {
     setState(() {
       _isLoading = !_isLoading;
@@ -39,7 +41,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     print(ref.read(registerProvider).birthday);
     _changeLoading();
     if (_formKey.currentState!.validate()) {
-      loginModel = LoginModel(
+      loginModel = RegisterModal(
           birthDate: ref.read(registerProvider).birthday!.toIso8601String(),
           email: _emailController.text,
           isMale: isGender,

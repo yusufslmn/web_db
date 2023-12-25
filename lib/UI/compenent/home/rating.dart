@@ -1,46 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:web_db/core/Utility/colors.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Rating extends StatelessWidget {
-  const Rating({
-    super.key,
-  });
-
+  const Rating({super.key, required this.rating, required this.totalComment});
+  final double rating;
+  final int totalComment;
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      children: [
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-          size: 20,
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-          size: 20,
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-          size: 20,
-        ),
-        Icon(
-          Icons.star_outlined,
-          color: PColors.mainColor,
-          size: 20,
-        ),
-        Icon(
-          Icons.star_half_outlined,
-          color: PColors.mainColor,
-          size: 20,
-        ),
-        Text(
-          "10000",
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-      ],
+    return SizedBox(
+      child: Row(
+        children: [
+          Expanded(
+            flex: 7,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: RatingBar.builder(
+                initialRating: rating,
+                minRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 20,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                  size: 5,
+                ),
+                onRatingUpdate: (double value) {},
+              ),
+            ),
+          ),
+          Expanded(
+              flex: 3,
+              child: Text(
+                '$totalComment',
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              )),
+        ],
+      ),
     );
   }
 }

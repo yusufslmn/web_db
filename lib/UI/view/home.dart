@@ -7,7 +7,6 @@ import 'package:web_db/UI/compenent/home/con_decoration.dart';
 import 'package:web_db/UI/compenent/home/top_seller.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/service/service.dart';
 import 'package:web_db/core/state/home_state.dart';
 
 class Home extends StatefulWidget {
@@ -46,7 +45,7 @@ class _HomeState extends StateHome {
               topSellerController: topSellerController,
             ),
             SizedBox(
-              height: context.height(0.4),
+              height: context.height(0.1),
             )
           ],
         ),
@@ -63,7 +62,6 @@ class _HomeState extends StateHome {
           itemCount: imagesUrl.length,
           controller: pageController,
           onPageChanged: (value) {
-            print(IService.basicAuth ?? "null");
             setState(() {
               if (value < imagesUrl.length) {
                 indexPage = value;

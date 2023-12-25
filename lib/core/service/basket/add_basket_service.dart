@@ -1,21 +1,20 @@
 // ignore_for_file: avoid_print
-
 import 'dart:convert';
 import 'dart:io';
-import 'package:web_db/core/model/login_model.dart';
+import 'package:web_db/core/model/add_basket_modal.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_db/core/service/service.dart';
 
-Future<bool> register(RegisterModal registerModel) async {
+Future<bool> addToBasket(AddBasketModel addBasketModel) async {
   try {
     final response = await http.post(
-      IService.url(ApiRouteName.register.name),
-      headers: IService.baseHeader,
-      body: jsonEncode(registerModel.toJson()),
+      IService.url(ApiRouteName.addToBasket.name),
+      headers: IService.basicHeader,
+      body: jsonEncode(addBasketModel.toJson()),
     );
 
     if (response.statusCode == 200) {
-      print('register success');
+      print('ürün eklendi');
     }
     return response.statusCode == HttpStatus.ok;
   } on Exception catch (e) {

@@ -13,14 +13,13 @@ import 'package:web_db/UI/compenent/product/select_colors.dart';
 import 'package:web_db/UI/compenent/product/seller_container.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/product_model.dart';
 import 'package:web_db/core/state/product_state.dart';
 import '../compenent/product/comments.dart';
 import '../compenent/product/product_property.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
-  const ProductDetail({super.key, required this.product});
-  final Product product;
+  const ProductDetail({super.key, required this.id});
+  final int id;
 
   @override
   ConsumerState<ProductDetail> createState() => _ProductDetailState();
@@ -29,97 +28,118 @@ class ProductDetail extends ConsumerStatefulWidget {
 class _ProductDetailState extends ProductState with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        ref.watch(productProvider).indexPage = 0;
-        return true;
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: CrossScroll(
-            verticalBar: const CrossScrollBar(),
-            horizontalBar: const CrossScrollBar(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TopAppBar(),
-                Container(
-                    margin: EdgeInsets.symmetric(
-                        vertical: 20, horizontal: context.width(0.15)),
-                    width: context.width(0.7),
-                    height: context.height(0.8),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Row(
-                      children: [
-                        const ImageContainer(),
-                        Expanded(
-                          child: Container(
-                              color: PColors.productBackContainer,
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomListTile(
-                                      name: product.name,
-                                      textStyle: CustomTextStyle.nameStyle),
-                                  CustomPriceText(
-                                      product: product,
-                                      commentRating: commentRating,
-                                      commentTotal: commentTotal),
-                                  SellerContainer(seller: seller),
-                                  Text(
-                                    "Renk",
-                                    style: CustomTextStyle.sellerStyle,
-                                  ),
-                                  const SelectColor(),
-                                  AddToBasket(product: product),
-                                  const Spacer(),
-                                  const Divider(),
-                                  const LoveAndCompare()
-                                ],
-                              )),
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : PopScope(
+            canPop: true,
+            onPopInvoked: (didPop) {
+              ref.watch(productProvider).indexPage = 0;
+            },
+            child: Scaffold(
+              body: SafeArea(
+                child: CrossScroll(
+                  verticalBar: const CrossScrollBar(),
+                  horizontalBar: const CrossScrollBar(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TopAppBar(),
+                      Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: context.width(0.15)),
+                          width: context.width(0.7),
+                          height: context.height(0.8),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey.shade300),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Row(
+                            children: [
+                              ImageContainer(
+                                  pictures: productDetailModel?.pictures ?? []),
+                              Expanded(
+                                child: Container(
+                                    color: PColors.productBackContainer,
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomListTile(
+                                            name:
+                                                productDetailModel?.name ?? "",
+                                            textStyle:
+                                                CustomTextStyle.nameStyle),
+                                        CustomPriceText(
+                                            price: productDetailModel!.price,
+                                            campaignPrice: productDetailModel!
+                                                .campaignPrice,
+                                            commentRating:
+                                                productDetailModel!.rating ??
+                                                    0.0,
+                                            commentTotal: productDetailModel!
+                                                    .commentCount ??
+                                                0),
+                                        SellerContainer(
+                                            seller:
+                                                productDetailModel?.brandName ??
+                                                    "Hepsibunda"),
+                                        Text(
+                                          "Renk",
+                                          style: CustomTextStyle.sellerStyle,
+                                        ),
+                                        const SelectColor(),
+                                        AddToBasket(
+                                            productId:
+                                                productDetailModel!.id ?? 0),
+                                        const Spacer(),
+                                        const Divider(),
+                                        const LoveAndCompare()
+                                      ],
+                                    )),
+                              ),
+                            ],
+                          )),
+                      Container(
+                        width: context.width(0.4),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 20, horizontal: context.width(0.15)),
+                        child: TabBar(
+                            onTap: (value) {
+                              bottomTabController.animateToPage(value,
+                                  duration: const Duration(seconds: 1),
+                                  curve: Curves.linear);
+                            },
+                            controller: TabController(vsync: this, length: 3),
+                            tabs: const [
+                              Text("Yorumlar"),
+                              Text("Ürün Açıklaması"),
+                              Text("Kampanyalar"),
+                            ]),
+                      ),
+                      Container(
+                        width: context.width(0.7),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 20, horizontal: context.width(0.15)),
+                        height: context.height(1),
+                        child: PageView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: bottomTabController,
+                          children: [
+                            SizedBox(
+                                width: context.width(0.5),
+                                child: Comments(productId: widget.id)),
+                            const ProductProperty(),
+                            const Campaign(),
+                          ],
                         ),
-                      ],
-                    )),
-                Container(
-                  width: context.width(0.4),
-                  margin: EdgeInsets.symmetric(
-                      vertical: 20, horizontal: context.width(0.15)),
-                  child: TabBar(
-                      onTap: (value) {
-                        bottomTabController.animateToPage(value,
-                            duration: const Duration(seconds: 1),
-                            curve: Curves.linear);
-                      },
-                      controller: TabController(vsync: this, length: 3),
-                      tabs: const [
-                        Text("Yorumlar"),
-                        Text("Ürün Açıklaması"),
-                        Text("Kampanyalar"),
-                      ]),
-                ),
-                Container(
-                  width: context.width(0.7),
-                  margin: EdgeInsets.symmetric(
-                      vertical: 20, horizontal: context.width(0.15)),
-                  height: context.height(1),
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: bottomTabController,
-                    children: const [
-                      Comments(),
-                      ProductProperty(),
-                      Campaign(),
+                      )
                     ],
                   ),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

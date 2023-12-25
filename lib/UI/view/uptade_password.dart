@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/service/profile/uptade_password.dart';
+import 'package:web_db/core/service/profile/uptade_password_service.dart';
 import 'package:web_db/core/service/service.dart';
 
 class PasswordChange extends StatefulWidget {
@@ -27,7 +27,7 @@ class _PasswordChangeState extends State<PasswordChange> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Center(
+        ? const Center(
             child: CircularProgressIndicator(),
           )
         : Padding(
@@ -53,8 +53,8 @@ class _PasswordChangeState extends State<PasswordChange> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: private
-                                ? Icon(Icons.visibility)
-                                : Icon(Icons.visibility_off),
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
                             onPressed: () {
                               setState(() {
                                 private = !private;
@@ -86,8 +86,8 @@ class _PasswordChangeState extends State<PasswordChange> {
                       decoration: InputDecoration(
                           suffixIcon: IconButton(
                             icon: private2
-                                ? Icon(Icons.visibility)
-                                : Icon(Icons.visibility_off),
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
                             onPressed: () {
                               setState(() {
                                 private2 = !private2;
@@ -132,19 +132,25 @@ class _PasswordChangeState extends State<PasswordChange> {
                               changeLoading();
                               await uptadePassword(oldPasswordController.text,
                                       newPasswordController.text)
-                                  .then((value) => showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: Text(
-                                              "Şifreniz Başarıyla değiştirildi"),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text("kaydet"))
-                                          ],
-                                        ),
-                                      ));
+                                  .then((value) {
+                                IService.password = newPasswordController.text;
+                                IService.basicAuth = encodeBasic(
+                                    email: IService.email,
+                                    password: IService.password);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title:
+                                        const Text("Şifreniz Başarıyla değiştirildi"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text("kaydet"))
+                                    ],
+                                  ),
+                                );
+                              });
                               changeLoading();
                             }
                           },

@@ -1,4 +1,4 @@
-class LoginModel {
+class RegisterModal {
   String? email;
   String? password;
   String? birthDate;
@@ -6,7 +6,7 @@ class LoginModel {
   String? name;
   String? surname;
 
-  LoginModel(
+  RegisterModal(
       {this.email,
       this.password,
       this.birthDate,
@@ -14,7 +14,7 @@ class LoginModel {
       this.name,
       this.surname});
 
-  LoginModel.fromJson(Map<String, dynamic> json) {
+  RegisterModal.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     password = json['password'];
     birthDate = json['birthDate'];
