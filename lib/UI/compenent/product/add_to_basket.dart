@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/add_basket_modal.dart';
+import 'package:web_db/core/model/basket/add_basket_modal.dart';
 import 'package:web_db/core/service/basket/add_basket_service.dart';
 
 class AddToBasket extends ConsumerStatefulWidget {

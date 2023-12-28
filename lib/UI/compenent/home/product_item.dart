@@ -1,16 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/home/add_basket_button.dart';
 import 'package:web_db/UI/compenent/home/rating.dart';
 import 'package:web_db/UI/compenent/home/top_seller.dart';
 import 'package:web_db/UI/view/product_detail.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/showroom_product_model.dart';
+import 'package:web_db/core/model/product/showroom_product_model.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({super.key, required this.product, required this.index});
+  const ProductItem({
+    super.key,
+    required this.product,
+  });
   final ShowroomProduct product;
-  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +34,20 @@ class ProductItem extends StatelessWidget {
             Expanded(
                 flex: 7,
                 child: PageView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: product.pictures?.length ?? 0,
-                    itemBuilder: (context, index) =>
-                        Image.network(product.pictures?[index]))),
+                  itemCount: product.pictures!.length,
+                  allowImplicitScrolling: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) => CachedNetworkImage(
+                    imageUrl: product.pictures![index],
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                )),
             Expanded(
               flex: 2,
               child: Container(

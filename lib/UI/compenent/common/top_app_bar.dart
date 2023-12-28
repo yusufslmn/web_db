@@ -27,9 +27,9 @@ class _TopAppBarState extends State<TopAppBar> {
     false,
   ];
 
-  final String title = "Hepsibunda";
+  final String title = "Hepsionda";
 
-  final String subtitle = "Hepsibundayı";
+  final String subtitle = "Hepsionda";
 
   final String subtitle2 = " keşfet";
 

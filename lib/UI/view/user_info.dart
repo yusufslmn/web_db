@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/profile_modal.dart';
+import 'package:web_db/core/model/profile/profile_modal.dart';
 import 'package:web_db/core/service/profile/get_user_data.dart';
+import 'package:web_db/core/service/profile/send_email_hotp.dart';
+import 'package:web_db/core/service/profile/uptade_user_data.dart';
+import 'package:web_db/core/service/profile/verify_email_hotp.dart';
 import 'package:web_db/core/service/service.dart';
 
 class UyelikBilgilerim extends StatefulWidget {
@@ -20,20 +23,37 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  bool _isLoading = false;
-  UserDataModel? userDataModel;
+  TextEditingController verifyController = TextEditingController();
+  ExpansionTileController expansionTileController = ExpansionTileController();
 
+  bool _isLoading = false;
+  bool _isLoading2 = false;
+  bool _isLoading3 = false;
+
+  UserDataModel? userDataModel;
   void _changeLoading() {
     setState(() {
       _isLoading = !_isLoading;
     });
   }
 
+  void _changeLoading2() {
+    setState(() {
+      _isLoading2 = !_isLoading2;
+    });
+  }
+
+  void _changeLoading3() {
+    setState(() {
+      _isLoading3 = !_isLoading3;
+    });
+  }
+
   Future<void> fetchData() async {
     _changeLoading();
     userDataModel = await getUserData();
-    nameController.text = userDataModel?.name ?? "";
-    surnameController.text = userDataModel?.surname ?? "";
+    nameController.text = userDataModel?.name ?? "hata";
+    surnameController.text = userDataModel?.surname ?? "hata";
     emailController.text = IService.email;
     initalGender = userDataModel?.isMale;
     _changeLoading();
@@ -146,19 +166,131 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
                           borderRadius: BorderRadius.circular(16)),
                     )),
               ),
+              userDataModel?.isVerified == true
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ExpansionTile(
+                        title: const Text('Email Doğrula'),
+                        controller: expansionTileController,
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: PColors.mainColor),
+                            borderRadius: BorderRadius.circular(8)),
+                        trailing: _isLoading2
+                            ? const Center(
+                                child: CircularProgressIndicator.adaptive(),
+                              )
+                            : TextButton(
+                                onPressed: () async {
+                                  _changeLoading2();
+                                  await sendMailHotp();
+                                  _changeLoading2();
+                                  expansionTileController.expand();
+                                },
+                                child:
+                                    const Text("Email Doğrulama Kodu Gönder"),
+                              ),
+                        collapsedShape: RoundedRectangleBorder(
+                            side: const BorderSide(color: PColors.mainColor),
+                            borderRadius: BorderRadius.circular(16)),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: verifyController,
+                              decoration: InputDecoration(
+                                  hintText: "Doğrulama Kodu",
+                                  suffixIcon: _isLoading3
+                                      ? const Center(
+                                          child: CircularProgressIndicator
+                                              .adaptive(),
+                                        )
+                                      : TextButton.icon(
+                                          onPressed: () async {
+                                            _changeLoading3();
+                                            await verifyMailHotp(
+                                                    verifyController.text)
+                                                .then((value) {
+                                              if (value) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                    actions: [
+                                                      Center(
+                                                        child: TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                                "Devam Et")),
+                                                      )
+                                                    ],
+                                                    title: Text(
+                                                        "Doğrulama başarılı"),
+                                                  ),
+                                                );
+                                              } else {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                    actions: [
+                                                      Center(
+                                                        child: TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                                "Tekrar Deneyiniz")),
+                                                      )
+                                                    ],
+                                                    title: Text(
+                                                        "Doğrulama başarısız"),
+                                                  ),
+                                                ).whenComplete(() async {
+                                                  setState(() {});
+                                                  await fetchData();
+                                                });
+                                              }
+                                            });
+                                            _changeLoading3();
+                                          },
+                                          icon: const Icon(Icons.send),
+                                          label: const Text("Kodu Doğrula"),
+                                        )),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
               Center(
                 child: SizedBox(
                   width: context.width(0.064),
-                  child: ListTile(
-                      enabled: isUptade,
-                      onTap: () {},
-                      textColor: Colors.white,
-                      tileColor: PColors.mainColor,
-                      shape: const StadiumBorder(),
-                      titleAlignment: ListTileTitleAlignment.center,
-                      title: const Text(
-                        "Güncelle",
-                      )),
+                  child: isUptade
+                      ? ElevatedButton(
+                          onPressed: () async {
+                            _changeLoading();
+                            UserDataModel userDataModel2 = UserDataModel(
+                                birthDate: userDataModel?.birthDate,
+                                email: IService.email,
+                                isMale: userDataModel?.isMale,
+                                name: nameController.text,
+                                surname: surnameController.text);
+                            await updateUserData(userDataModel2)
+                                .then((value) async {
+                              if (value) {
+                                await fetchData();
+                              }
+                            });
+                            _changeLoading();
+                          },
+                          child: const Text(
+                            "Güncelle",
+                          ))
+                      : const SizedBox.shrink(),
                 ),
               )
             ],

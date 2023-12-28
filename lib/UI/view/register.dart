@@ -9,7 +9,7 @@ import 'package:web_db/UI/view/login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:intl/intl.dart';
-import 'package:web_db/core/model/login_model.dart';
+import 'package:web_db/core/model/login/login_model.dart';
 import 'package:web_db/core/service/login/reg_service.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 

@@ -8,7 +8,7 @@ import 'package:web_db/core/service/service.dart';
 Future<bool> uptadePassword(String oldPassword, String newPassword) async {
   try {
     final response = await http.post(
-      IService.url(ApiRouteName.uptadePassword.name),
+      IService.url(ApiRouteName.uptdatePassword.name),
       headers: IService.basicHeader,
       body:
           jsonEncode({"oldPassword": oldPassword, "newPassword": newPassword}),

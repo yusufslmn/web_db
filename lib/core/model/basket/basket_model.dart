@@ -1,9 +1,9 @@
-import 'package:web_db/core/model/get_basket_model.dart';
+import 'package:web_db/core/model/basket/get_basket_item_model.dart';
 
 class BasketModal {
   List<GetBasketItemModel>? items;
   int? totalItemCount;
-  int? totalPrice;
+  double? totalPrice;
   double? totalCampaignPrice;
 
   BasketModal(
@@ -14,14 +14,11 @@ class BasketModal {
 
   BasketModal.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
-      items = <GetBasketItemModel>[];
-      if (json['items'] is List) {
-        json['items'].map((v) {
-          Map<String, dynamic> mapData = {};
-          mapData = v;
-          items!.add(GetBasketItemModel.fromJson(mapData));
-        });
-      }
+      final List<dynamic> list = json['items'] as List<dynamic>;
+      items = list.map((v) {
+        if (v != null) v as Map<String, dynamic>;
+        return GetBasketItemModel.fromJson(v);
+      }).toList();
     }
     totalItemCount = json['totalItemCount'];
     totalPrice = json['totalPrice'];

@@ -1,4 +1,4 @@
-import 'package:web_db/core/model/showroom_product_model.dart';
+import 'package:web_db/core/model/product/showroom_product_model.dart';
 
 List<String> productImages = [
   "https://picsum.photos/id/55/900/1200",

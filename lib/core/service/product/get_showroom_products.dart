@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:web_db/core/model/showroom_product_model.dart';
+import 'package:web_db/core/model/product/showroom_product_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_db/core/service/service.dart';
 

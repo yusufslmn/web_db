@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_db/core/model/add_basket_modal.dart';
+import 'package:web_db/core/model/basket/add_basket_modal.dart';
 import 'package:web_db/core/service/basket/add_basket_service.dart';
 import '../../../core/Utility/colors.dart';
 

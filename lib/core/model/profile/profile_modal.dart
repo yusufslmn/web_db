@@ -4,6 +4,7 @@ class UserDataModel {
   String? surname;
   String? email;
   String? birthDate;
+  bool? isVerified;
 
   UserDataModel(
       {this.isMale, this.name, this.surname, this.email, this.birthDate});
@@ -14,6 +15,7 @@ class UserDataModel {
     surname = json['surname'];
     email = json['email'];
     birthDate = json['birthDate'];
+    isVerified = json['isVerified'];
   }
 
   Map<String, dynamic> toJson() {

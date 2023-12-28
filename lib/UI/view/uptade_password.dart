@@ -133,23 +133,39 @@ class _PasswordChangeState extends State<PasswordChange> {
                               await uptadePassword(oldPasswordController.text,
                                       newPasswordController.text)
                                   .then((value) {
-                                IService.password = newPasswordController.text;
-                                IService.basicAuth = encodeBasic(
-                                    email: IService.email,
-                                    password: IService.password);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title:
-                                        const Text("Şifreniz Başarıyla değiştirildi"),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: const Text("kaydet"))
-                                    ],
-                                  ),
-                                );
+                                if (value) {
+                                  IService.password =
+                                      newPasswordController.text;
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text(
+                                          "Şifreniz Başarıyla değiştirildi"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: const Text("kaydet"))
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      title: const Text(
+                                          "Şifreniz  değiştirelemedi"),
+                                      actions: [
+                                        Center(
+                                          child: TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text("Tekrar dene")),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }
                               });
                               changeLoading();
                             }

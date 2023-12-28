@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:web_db/UI/compenent/home/product_item.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/showroom_product_model.dart';
+import 'package:web_db/core/model/product/showroom_product_model.dart';
 import 'package:web_db/core/service/product/get_showroom_products.dart';
 
 class TopSellerProducts extends StatefulWidget {
@@ -20,9 +20,24 @@ class TopSellerProducts extends StatefulWidget {
 }
 
 class _TopSellerProductsState extends State<TopSellerProducts> {
+  bool _isLoading = false;
+
+  void _changeLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  List<ShowroomProduct>? data;
+  void getData() async {
+    _changeLoading();
+    data = await fetchShowroomProduct();
+    _changeLoading();
+  }
+
   @override
   void initState() {
-    fetchShowroomProduct();
+    getData();
     super.initState();
   }
 
@@ -55,44 +70,30 @@ class _TopSellerProductsState extends State<TopSellerProducts> {
               ),
             ),
           ),
-          SizedBox(
-            width: context.width(0.76),
-            height: context.height(1.4),
-            child: DesktopScrollbar(
-              controller: widget.topSellerController,
-              thumbColor: Colors.black,
-              radius: const Radius.circular(8),
-              child: FutureBuilder<List<ShowroomProduct>>(
-                future: fetchShowroomProduct(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 5, childAspectRatio: 0.6),
+          _isLoading
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : SizedBox(
+                  width: context.width(0.76),
+                  height: context.height(1.4),
+                  child: DesktopScrollbar(
                       controller: widget.topSellerController,
-                      itemCount: snapshot.data!.length,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder: (context, index) => ProductItem(
-                        index: index,
-                        product: snapshot.data![index],
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('${snapshot.error}');
-                  }
-
-                  // By default, show a loading spinner.
-                  return const Center(
-                    child: SizedBox(
-                        height: 40,
-                        width: 40,
-                        child: CircularProgressIndicator()),
-                  );
-                },
-              ),
-            ),
-          ),
+                      thumbColor: Colors.black,
+                      radius: const Radius.circular(8),
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 5, childAspectRatio: 0.6),
+                        controller: widget.topSellerController,
+                        itemCount: data!.length,
+                        cacheExtent: 500,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) => ProductItem(
+                          product: data![index],
+                        ),
+                      )),
+                ),
         ],
       ),
     );

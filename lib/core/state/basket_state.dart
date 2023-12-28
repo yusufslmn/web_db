@@ -5,17 +5,9 @@ import 'package:web_db/core/service/basket/get_basket_service.dart';
 
 abstract class StateBasket extends ConsumerState<Basket> {
   final String title = "Sepetim";
-  int total = 1;
-  bool isLoading = false;
-  void changeLoading() {
-    setState(() {
-      isLoading = !isLoading;
-    });
-  }
 
   @override
   void initState() {
-    fetchBasketItem();
     super.initState();
   }
 

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/view/basket.dart';
+import 'package:web_db/UI/compenent/basket/basket_custom_listtile.dart';
 import 'package:web_db/UI/view/home.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/settings/route_settings.dart';
-import 'package:web_db/core/state/basket_state.dart';
 
 class Buying extends ConsumerStatefulWidget {
   const Buying({super.key});
@@ -218,9 +217,9 @@ class BuyingTotalContainer extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          const Text(
             "SEPETTEKİ ÜRÜNLER ()",
-            style: const TextStyle(
+            style: TextStyle(
                 color: PColors.mainColor,
                 fontSize: 12,
                 fontWeight: FontWeight.bold),
@@ -228,9 +227,9 @@ class BuyingTotalContainer extends ConsumerWidget {
           const Spacer(
             flex: 1,
           ),
-          Text(
+          const Text(
             " TL",
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
           const Spacer(
             flex: 8,
@@ -255,7 +254,7 @@ class BuyingTotalContainer extends ConsumerWidget {
           const Spacer(
             flex: 1,
           ),
-          CustomListTileText(
+          const CustomListTileText(
             price: 100.00,
             title: "Ürünler:",
           ),
