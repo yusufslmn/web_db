@@ -284,7 +284,11 @@ class AddToCoupon extends StatelessWidget {
               side: BorderSide(color: PColors.productBackContainer)),
           leading: TextButton.icon(
               onPressed: () {
-                _expansionTileController.expand();
+                if (!_expansionTileController.isExpanded)
+                  _expansionTileController.expand();
+                else {
+                  _expansionTileController.collapse();
+                }
               },
               icon: const Icon(
                 Icons.add_circle_outline_outlined,

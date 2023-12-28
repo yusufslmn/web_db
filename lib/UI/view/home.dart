@@ -44,9 +44,6 @@ class _HomeState extends StateHome {
             TopSellerProducts(
               topSellerController: topSellerController,
             ),
-            SizedBox(
-              height: context.height(0.1),
-            )
           ],
         ),
       ),

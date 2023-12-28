@@ -45,7 +45,6 @@ class _TopSellerProductsState extends State<TopSellerProducts> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: context.width(1),
-      height: context.height(1.5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -76,7 +75,7 @@ class _TopSellerProductsState extends State<TopSellerProducts> {
                 )
               : SizedBox(
                   width: context.width(0.76),
-                  height: context.height(1.4),
+                  height: context.height(0.48) * (data!.length / 5),
                   child: DesktopScrollbar(
                       controller: widget.topSellerController,
                       thumbColor: Colors.black,

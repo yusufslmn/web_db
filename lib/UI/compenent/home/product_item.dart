@@ -17,7 +17,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         pushToPage(context, ProductDetail(id: product.id ?? 0));
       },
