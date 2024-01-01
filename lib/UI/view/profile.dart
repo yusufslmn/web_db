@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/basket/basket_custom_listtile.dart';
 import 'package:web_db/UI/compenent/common/top_app_bar.dart';
 import 'package:web_db/UI/view/adress.dart';
+import 'package:web_db/UI/view/chat.dart';
+import 'package:web_db/UI/view/compare.dart';
 import 'package:web_db/UI/view/uptade_password.dart';
 import 'package:web_db/UI/view/user_info.dart';
 import 'package:web_db/core/Utility/colors.dart';
@@ -16,6 +19,8 @@ import 'package:web_db/core/service/coupon/get_all_coupon.dart';
 import 'package:web_db/core/service/coupon/get_coupon.dart';
 import 'package:web_db/core/service/coupon/get_user_coupon.dart';
 import 'package:web_db/core/service/orders/get_order.dart';
+import 'package:web_db/core/service/service.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 import 'package:web_db/core/state/profile_state.dart';
 
 class Profile extends ConsumerStatefulWidget {
@@ -46,7 +51,7 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                 ),
               ),
               SizedBox(
-                width: context.width(0.5),
+                width: context.width(0.7),
                 child: TabBar(
                     onTap: (value) {
                       pageController.animateToPage(value,
@@ -56,13 +61,15 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                     dividerColor: PColors.mainColor,
                     labelColor: PColors.mainColor,
                     indicatorColor: PColors.mainColor,
-                    controller: TabController(length: 5, vsync: this),
+                    controller: TabController(length: 7, vsync: this),
                     tabs: const [
                       Text("Üyelik Bilgilerim"),
                       Text("Şifre Değişikliği"),
                       Text("Kuponlar"),
                       Text("Siparişlerim"),
+                      Text("Karşılaştırmalarım"),
                       Text("Adreslerim"),
+                      Text("Müşteri Destek"),
                     ]),
               ),
               SizedBox(
@@ -626,7 +633,50 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                             child: CircularProgressIndicator.adaptive());
                       },
                     ),
+                    StreamBuilder(
+                      stream: getCompare(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: context.height(0.6),
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: ListTile(
+                                  onTap: () => pushToPage(
+                                      context,
+                                      Compare(
+                                          isShow: false,
+                                          id1: snapshot.data!.docs[index]
+                                              ["id1"],
+                                          id2: snapshot.data!.docs[index]
+                                              ["id2"])),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: const BorderSide(
+                                        color: PColors.mainColor),
+                                  ),
+                                  leading: Text("${index + 1}. Karşılaştırma"),
+                                  title: Text(
+                                      "1.Ürün :${snapshot.data!.docs[index]["name1"]}   ,2.Ürün: ${snapshot.data!.docs[index]["name2"]}"),
+                                ),
+                              ),
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+
+                        // By default, show a loading spinner.
+                        return const Center(
+                            child: CircularProgressIndicator.adaptive());
+                      },
+                    ),
                     const Adreslerim(),
+                    ChatPage(
+                      chatId: IService.basicAuth,
+                    )
                   ],
                 ),
               )
@@ -780,22 +830,6 @@ class _DrawerEndState extends State<DrawerEnd> {
   }
 }
 
-class Chat extends StatefulWidget {
-  const Chat({super.key});
-
-  @override
-  State<Chat> createState() => _ChatState();
-}
-
-class _ChatState extends State<Chat> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
-    );
-  }
-}
-
 class OrderTotalContainer extends ConsumerWidget {
   const OrderTotalContainer(
       {super.key,
@@ -933,4 +967,11 @@ class OrderTotalContainer extends ConsumerWidget {
       ),
     );
   }
+}
+
+Stream<QuerySnapshot<Map<String, dynamic>>> getCompare() {
+  return FirebaseFirestore.instance
+      .collection("compare")
+      .where("auth", isEqualTo: IService.basicAuth)
+      .snapshots();
 }

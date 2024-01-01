@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:web_db/UI/view/admin_chat.dart';
 import 'package:web_db/UI/view/login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
@@ -38,6 +41,11 @@ class _SellerPanelState extends State<SellerPanel> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: TextButton.icon(
+            onPressed: () => pushToPage(context, const AdminMessages()),
+            icon: const Icon(Icons.message),
+            label: const Text("Mesajlar")),
+        leadingWidth: context.width(0.1),
         actions: [
           IconButton(
               onPressed: () => pushReplacement(context, const Login()),
@@ -83,10 +91,12 @@ class _SellerPanelState extends State<SellerPanel> {
                                           : ElevatedButton(
                                               onPressed: () async {
                                                 await sendCommentRating(
-                                                    snapshot.data![index].id ??
-                                                        0,
-                                                    rating!);
-                                                Navigator.pop(context);
+                                                        snapshot.data![index]
+                                                                .id ??
+                                                            0,
+                                                        rating!)
+                                                    .then((value) =>
+                                                        Navigator.pop(context));
                                               },
                                               child: const Text("Gönder")),
                                       ElevatedButton(

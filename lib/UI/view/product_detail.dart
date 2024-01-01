@@ -151,12 +151,15 @@ class _ProductDetailState extends ProductState with TickerProviderStateMixin {
                                                         .read(productProvider)
                                                         .compareList
                                                         .contains(
-                                                            productDetailModel!))) {
+                                                            productDetailModel!
+                                                                .id))) {
                                                       ref
                                                           .read(productProvider)
                                                           .compareList
                                                           .add(
-                                                              productDetailModel!);
+                                                              productDetailModel!
+                                                                      .id ??
+                                                                  0);
                                                       setState(() {});
                                                       if (ref
                                                               .read(
@@ -165,7 +168,18 @@ class _ProductDetailState extends ProductState with TickerProviderStateMixin {
                                                               .length ==
                                                           2) {
                                                         pushToPage(
-                                                            context, Compare());
+                                                            context,
+                                                            Compare(
+                                                              isShow: true,
+                                                              id1: ref
+                                                                  .read(
+                                                                      productProvider)
+                                                                  .compareList[0],
+                                                              id2: ref
+                                                                  .read(
+                                                                      productProvider)
+                                                                  .compareList[1],
+                                                            ));
                                                       }
                                                     }
                                                   }

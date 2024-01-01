@@ -33,8 +33,7 @@ abstract class ProductState extends ConsumerState<ProductDetail> {
 
 class ProductNotifier extends ChangeNotifier {
   int indexPage = 0;
-
-  List<ProductDetailModel> compareList = [];
+  List<int> compareList = [];
   PageController pageController = PageController();
 
   void nextImage() async {
