@@ -10,11 +10,8 @@ class RatingProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RatingBar.builder(
-      initialRating: commentRating,
-      minRating: 0,
+    return RatingBarIndicator(
       direction: Axis.horizontal,
-      allowHalfRating: true,
       itemCount: 5,
       itemSize: 20,
       itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
@@ -23,7 +20,7 @@ class RatingProduct extends StatelessWidget {
         color: Colors.amber,
         size: 5,
       ),
-      onRatingUpdate: (double value) {},
+      rating: commentRating,
     );
   }
 }

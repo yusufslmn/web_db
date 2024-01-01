@@ -12,16 +12,16 @@ class CustomListTileText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(
+      leading: Text(
         title,
         style: TextStyle(
             fontSize: 12,
             color: PColors.titleGrey,
             fontWeight: FontWeight.w600),
       ),
-      trailing: Text(
-        "$price TL",
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      title: Text(
+        "${price.toStringAsFixed(2)} TL",
+        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
       ),
     );
   }

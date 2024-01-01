@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:web_db/UI/view/register.dart';
+import 'package:web_db/UI/view/seller_login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/settings/route_settings.dart';
@@ -132,6 +133,19 @@ class _LoginState extends StateLogin {
                                               color: PColors.mainColor),
                                         )),
                                     const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: TextButton(
+                                          onPressed: () => pushToPage(
+                                              context, const SellerLogin()),
+                                          child: const Text(
+                                            "Mağaza Giriş",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: PColors.mainColor),
+                                          )),
+                                    ),
                                     TextButton(
                                         onPressed: () => pushToPage(context,
                                             const RegistrationScreen()),

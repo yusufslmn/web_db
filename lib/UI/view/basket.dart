@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/basket/basket_custom_listtile.dart';
 import 'package:web_db/UI/compenent/common/top_app_bar.dart';
+import 'package:web_db/UI/view/buying.dart';
 import 'package:web_db/UI/view/home.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/model/basket/add_basket_modal.dart';
 import 'package:web_db/core/model/basket/basket_model.dart';
-import 'package:web_db/core/service/basket/add_basket_service.dart';
+import 'package:web_db/core/model/basket/uptade_quantity.dart';
+import 'package:web_db/core/model/coupon/coupon_model.dart';
 import 'package:web_db/core/service/basket/empty_basket_service.dart';
 import 'package:web_db/core/service/basket/get_basket_service.dart';
+import 'package:web_db/core/service/basket/uptade_quantity.dart';
+import 'package:web_db/core/service/coupon/get_user_coupon.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 import 'package:web_db/core/state/basket_state.dart';
-import 'package:web_db/core/state/product_state.dart';
 
 class Basket extends ConsumerStatefulWidget {
   const Basket({super.key});
@@ -57,7 +59,192 @@ class _BasketState extends StateBasket {
                                 flex: 8,
                                 child: Column(
                                   children: [
-                                    AddToCoupon(),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: ExpansionTile(
+                                          collapsedBackgroundColor:
+                                              Colors.white,
+                                          backgroundColor: Colors.white,
+                                          controller: expansionTileController,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              side: BorderSide(
+                                                  color: PColors
+                                                      .productBackContainer)),
+                                          leading: TextButton.icon(
+                                              onPressed: () {
+                                                if (!expansionTileController
+                                                    .isExpanded) {
+                                                  expansionTileController
+                                                      .expand();
+                                                } else {
+                                                  expansionTileController
+                                                      .collapse();
+                                                }
+                                              },
+                                              icon: const Icon(
+                                                Icons
+                                                    .add_circle_outline_outlined,
+                                                color: PColors.mainColor,
+                                              ),
+                                              label: const Text(
+                                                "Kupon Ekle",
+                                                style: TextStyle(
+                                                    color: PColors.mainColor),
+                                              )),
+                                          title: const SizedBox.shrink(),
+                                          children: [
+                                            FutureBuilder<List<CouponModel>>(
+                                              future: getUserCoupons(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  return Container(
+                                                      height:
+                                                          context.height(0.25),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Scrollbar(
+                                                        controller: controller,
+                                                        child: ListView.builder(
+                                                          itemCount: snapshot
+                                                                  .data
+                                                                  ?.length ??
+                                                              0,
+                                                          controller:
+                                                              controller,
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          itemBuilder: (context,
+                                                                  index) =>
+                                                              Container(
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        8),
+                                                            width: context
+                                                                .width(0.1),
+                                                            height: context
+                                                                .height(0.25),
+                                                            child: Card(
+                                                              color: Colors.grey
+                                                                  .shade100,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              16)),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Container(
+                                                                    color: PColors
+                                                                        .mainColor,
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            4.0),
+                                                                    margin:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            4.0),
+                                                                    child: Text(
+                                                                      "${snapshot.data![index].code}",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: const TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          backgroundColor: PColors
+                                                                              .mainColor,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                    child: Text(
+                                                                      "Her üründe geçerli ${snapshot.data![index].discount}TL",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: const TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                    child: Text(
+                                                                      "Son  ${snapshot.data![index].remainedQuantity ?? 1} adet",
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: const TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            8.0),
+                                                                    child: snapshot.data?[index].isAvailable ==
+                                                                            true
+                                                                        ? ElevatedButton(
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(backgroundColor: PColors.mainColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+                                                                            onPressed: () {
+                                                                              setState(() {
+                                                                                couponCode = snapshot.data?[index].code;
+                                                                                discount = snapshot.data![index].discount;
+                                                                              });
+                                                                            },
+                                                                            child: const Text(
+                                                                              "Kuponu Kullan",
+                                                                              style: TextStyle(color: Colors.white),
+                                                                            ))
+                                                                        : ElevatedButton(
+                                                                            style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 209, 150, 114), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+                                                                            onPressed: () {},
+                                                                            child: const Text(
+                                                                              "Kupon Kullanılamaz",
+                                                                              style: TextStyle(color: Colors.white),
+                                                                            )),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ));
+                                                } else if (snapshot.hasError) {
+                                                  return Text(
+                                                      '${snapshot.error}');
+                                                }
+
+                                                // By default, show a loading spinner.
+                                                return const CircularProgressIndicator();
+                                              },
+                                            ),
+                                          ]),
+                                    ),
                                     SizedBox(
                                       height: context.height(0.8),
                                       child: ListView.builder(
@@ -92,8 +279,7 @@ class _BasketState extends StateBasket {
                                                     flex: 2,
                                                     child: ListTile(
                                                       leading: Icon(
-                                                          Icons
-                                                              .directions_bus_outlined,
+                                                          Icons.local_shipping,
                                                           size: 20),
                                                       title: Text(
                                                           "Tahmini 20 Aralık Çarşamba kapında"),
@@ -126,16 +312,25 @@ class _BasketState extends StateBasket {
                                                             child: Column(
                                                               children: [
                                                                 ListTile(
+                                                                  subtitle: Text(snapshot
+                                                                          .data!
+                                                                          .items![
+                                                                              index]
+                                                                          .attributes!
+                                                                          .isEmpty
+                                                                      ? " "
+                                                                      : snapshot
+                                                                          .data!
+                                                                          .items![
+                                                                              index]
+                                                                          .attributes
+                                                                          .toString()),
                                                                   title: Text(snapshot
                                                                           .data!
                                                                           .items![
                                                                               index]
                                                                           .productName ??
                                                                       ""),
-                                                                  subtitle: Text(ref
-                                                                      .read(
-                                                                          productProvider)
-                                                                      .color),
                                                                 ),
                                                                 ListTile(
                                                                   leading:
@@ -155,8 +350,11 @@ class _BasketState extends StateBasket {
                                                                         IconButton(
                                                                             onPressed:
                                                                                 () async {
-                                                                              AddBasketModel addToBasketItem = AddBasketModel(productId: snapshot.data?.items?[index].productId ?? 0, quantity: (snapshot.data?.items?[index].quantity ?? 0) - 1);
-                                                                              await addToBasket(addToBasketItem);
+                                                                              UptadeQuantity addToBasketItem = UptadeQuantity(
+                                                                                productId: snapshot.data?.items?[index].productId ?? 0,
+                                                                                quantity: (snapshot.data?.items?[index].quantity ?? 0) - 1,
+                                                                              );
+                                                                              await uptadeQuantity(addToBasketItem);
                                                                               setState(() {});
                                                                             },
                                                                             icon:
@@ -178,8 +376,11 @@ class _BasketState extends StateBasket {
                                                                         IconButton(
                                                                             onPressed:
                                                                                 () async {
-                                                                              AddBasketModel addToBasketItem = AddBasketModel(productId: snapshot.data?.items?[index].productId ?? 0, quantity: (snapshot.data!.items![index].quantity ?? 0) + 1);
-                                                                              await addToBasket(addToBasketItem);
+                                                                              UptadeQuantity addToBasketItem = UptadeQuantity(
+                                                                                productId: snapshot.data?.items?[index].productId ?? 0,
+                                                                                quantity: (snapshot.data?.items?[index].quantity ?? 0) + 1,
+                                                                              );
+                                                                              await uptadeQuantity(addToBasketItem);
                                                                               setState(() {});
                                                                             },
                                                                             icon:
@@ -196,7 +397,7 @@ class _BasketState extends StateBasket {
                                                                             .min,
                                                                     children: [
                                                                       Text(
-                                                                        "${snapshot.data?.items?[index].price ?? 0} TL",
+                                                                        "${snapshot.data?.items?[index].price?.toStringAsFixed(2) ?? 0.00} TL",
                                                                         style: TextStyle(
                                                                             decoration: snapshot.data!.items![index].campaignPrice != null
                                                                                 ? TextDecoration.lineThrough
@@ -210,7 +411,7 @@ class _BasketState extends StateBasket {
                                                                           ? Padding(
                                                                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                                                               child: Text(
-                                                                                "${snapshot.data?.items?[index].campaignPrice ?? 0} TL",
+                                                                                "${snapshot.data?.items?[index].campaignPrice?.toStringAsFixed(2) ?? 0} TL",
                                                                                 style: const TextStyle(fontSize: 15, color: Colors.red, fontWeight: FontWeight.bold),
                                                                               ),
                                                                             )
@@ -235,6 +436,8 @@ class _BasketState extends StateBasket {
                               Expanded(
                                 flex: 2,
                                 child: BasketTotalContainer(
+                                    couponCode: couponCode,
+                                    discount: discount,
                                     totalCampaignPrice:
                                         snapshot.data?.totalCampaignPrice ?? 0,
                                     totalItemCount:
@@ -263,118 +466,21 @@ class _BasketState extends StateBasket {
   }
 }
 
-class AddToCoupon extends StatelessWidget {
-  AddToCoupon({
-    super.key,
-  });
-  final int couponPrice = 200;
-  final String? couponCode = "HPS200";
-  final ExpansionTileController _expansionTileController =
-      ExpansionTileController();
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: ExpansionTile(
-          collapsedBackgroundColor: Colors.white,
-          backgroundColor: Colors.white,
-          controller: _expansionTileController,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-              side: BorderSide(color: PColors.productBackContainer)),
-          leading: TextButton.icon(
-              onPressed: () {
-                if (!_expansionTileController.isExpanded)
-                  _expansionTileController.expand();
-                else {
-                  _expansionTileController.collapse();
-                }
-              },
-              icon: const Icon(
-                Icons.add_circle_outline_outlined,
-                color: PColors.mainColor,
-              ),
-              label: const Text(
-                "Kupon Ekle",
-                style: TextStyle(color: PColors.mainColor),
-              )),
-          title: const SizedBox.shrink(),
-          children: [
-            Container(
-                height: context.height(0.2),
-                padding: const EdgeInsets.all(8.0),
-                child: ListView.builder(
-                  itemCount: 10,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SizedBox(
-                    width: context.width(0.1),
-                    height: context.height(0.2),
-                    child: Card(
-                      color: Colors.grey.shade100,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            color: PColors.mainColor,
-                            padding: const EdgeInsets.all(4.0),
-                            margin: const EdgeInsets.all(4.0),
-                            child: Text(
-                              "$couponCode",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  backgroundColor: PColors.mainColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "Her üründe geçerli $couponPrice TL",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: PColors.mainColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(16))),
-                                onPressed: () {},
-                                child: Text(
-                                  "Kuponu Kullan",
-                                  style: TextStyle(color: Colors.white),
-                                )),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ))
-          ]),
-    );
-  }
-}
-
-class BasketTotalContainer extends ConsumerWidget {
-  const BasketTotalContainer({
-    super.key,
-    required this.totalCampaignPrice,
-    required this.totalItemCount,
-    required this.totalPrice,
-  });
+class BasketTotalContainer extends StatelessWidget {
+  const BasketTotalContainer(
+      {super.key,
+      required this.totalCampaignPrice,
+      required this.totalItemCount,
+      required this.totalPrice,
+      required this.discount,
+      required this.couponCode});
   final double? totalCampaignPrice;
   final int? totalItemCount;
   final double? totalPrice;
+  final String? couponCode;
+  final double? discount;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Container(
       height: context.height(0.5),
       padding: const EdgeInsets.all(16),
@@ -399,7 +505,7 @@ class BasketTotalContainer extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("${totalPrice ?? 0} TL",
+              Text("${(totalPrice ?? 0).toStringAsFixed(2)} TL",
                   style: TextStyle(
                       decorationThickness: 2,
                       decoration: totalCampaignPrice == null
@@ -412,9 +518,21 @@ class BasketTotalContainer extends ConsumerWidget {
                   : Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
-                        "$totalCampaignPrice TL",
+                        "${(totalCampaignPrice ?? 0).toStringAsFixed(2)} TL",
                         style: const TextStyle(
                             color: Colors.red,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+              discount == null
+                  ? const SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        "- ${(discount ?? 0).toStringAsFixed(2)} TL",
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 53, 154, 205),
                             fontSize: 15,
                             fontWeight: FontWeight.bold),
                       ),
@@ -431,7 +549,15 @@ class BasketTotalContainer extends ConsumerWidget {
                   backgroundColor: PColors.mainColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              onPressed: () {},
+              onPressed: () => pushToPage(
+                  context,
+                  Buying(
+                    totalItemCount: totalItemCount,
+                    totalPrice: totalPrice,
+                    totalCampaignPrice: totalCampaignPrice,
+                    couponCode: couponCode,
+                    discount: discount,
+                  )),
               child: Text(
                 "Alışverişi tamamla",
                 style: TextStyle(
@@ -451,14 +577,20 @@ class BasketTotalContainer extends ConsumerWidget {
           const CustomListTileText(
             price: 29.99,
             title: "Kargo:",
-          )
+          ),
+          const Divider(),
+          CustomListTileText(
+              title: 'Toplam',
+              price:
+                  ((totalCampaignPrice ?? (totalPrice ?? 0 + 29.99)) + 29.99) -
+                      (discount ?? 0))
         ],
       ),
     );
   }
 }
 
-class BasketTop extends ConsumerWidget {
+class BasketTop extends StatefulWidget {
   const BasketTop(
       {super.key, required this.title, required this.totalItemCount});
 
@@ -466,7 +598,19 @@ class BasketTop extends ConsumerWidget {
   final int totalItemCount;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<BasketTop> createState() => _BasketTopState();
+}
+
+class _BasketTopState extends State<BasketTop> {
+  bool isLoading = false;
+  void changeLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       width: context.width(1),
@@ -476,14 +620,14 @@ class BasketTop extends ConsumerWidget {
         width: context.width(0.7),
         child: ListTile(
           leading: Text(
-            title,
+            widget.title,
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall
                 ?.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
           ),
           title: Text(
-            "($totalItemCount ürün)",
+            "(${widget.totalItemCount} ürün)",
             style: Theme.of(context)
                 .textTheme
                 .titleSmall
@@ -494,8 +638,13 @@ class BasketTop extends ConsumerWidget {
                 iconColor: PColors.mainColor,
               ),
               onPressed: () async {
+                changeLoading();
                 await emptyBasket().then((value) {
-                  if (value) pushToPage(context, const Home());
+                  if (value) {
+                    pushToPage(context, const Home());
+                  } else {
+                    changeLoading();
+                  }
                 });
               },
               icon: const Icon(Icons.delete),

@@ -56,6 +56,7 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
     surnameController.text = userDataModel?.surname ?? "hata";
     emailController.text = IService.email;
     initalGender = userDataModel?.isMale;
+    IService.validationUser = userDataModel?.isVerified ?? false;
     _changeLoading();
   }
 
@@ -223,11 +224,11 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
                                                               Navigator.pop(
                                                                   context);
                                                             },
-                                                            child: Text(
+                                                            child: const Text(
                                                                 "Devam Et")),
                                                       )
                                                     ],
-                                                    title: Text(
+                                                    title: const Text(
                                                         "Doğrulama başarılı"),
                                                   ),
                                                 );
@@ -243,11 +244,11 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
                                                               Navigator.pop(
                                                                   context);
                                                             },
-                                                            child: Text(
+                                                            child: const Text(
                                                                 "Tekrar Deneyiniz")),
                                                       )
                                                     ],
-                                                    title: Text(
+                                                    title: const Text(
                                                         "Doğrulama başarısız"),
                                                   ),
                                                 ).whenComplete(() async {

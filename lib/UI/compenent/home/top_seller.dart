@@ -70,12 +70,12 @@ class _TopSellerProductsState extends State<TopSellerProducts> {
             ),
           ),
           _isLoading
-              ? Center(
+              ? const Center(
                   child: CircularProgressIndicator.adaptive(),
                 )
               : SizedBox(
                   width: context.width(0.76),
-                  height: context.height(0.48) * (data!.length / 5),
+                  height: context.height(2),
                   child: DesktopScrollbar(
                       controller: widget.topSellerController,
                       thumbColor: Colors.black,

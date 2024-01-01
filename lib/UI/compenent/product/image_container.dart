@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/home/button_image.dart';
-import 'package:web_db/UI/compenent/home/data_example.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import '../../../core/state/product_state.dart';
@@ -97,15 +96,11 @@ class _ImageContainerState extends ConsumerState<ImageContainer> {
                           .jumpToPage(index),
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                        padding: widget.pictures?[index] ==
-                                widget.pictures?[
-                                    ref.watch(productProvider).indexPage]
+                        padding: index == ref.watch(productProvider).indexPage
                             ? const EdgeInsets.all(2)
                             : EdgeInsets.zero,
                         decoration: BoxDecoration(
-                            color: productDetailImages[index] ==
-                                    productDetailImages[
-                                        ref.read(productProvider).indexPage]
+                            color: index == ref.read(productProvider).indexPage
                                 ? PColors.mainColor
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(4)),

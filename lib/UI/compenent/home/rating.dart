@@ -14,11 +14,9 @@ class Rating extends StatelessWidget {
             flex: 7,
             child: Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: RatingBar.builder(
-                initialRating: rating,
-                minRating: 0,
+              child: RatingBarIndicator(
                 direction: Axis.horizontal,
-                allowHalfRating: true,
+                rating: rating,
                 itemCount: 5,
                 itemSize: 20,
                 itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
@@ -27,7 +25,6 @@ class Rating extends StatelessWidget {
                   color: Colors.amber,
                   size: 5,
                 ),
-                onRatingUpdate: (double value) {},
               ),
             ),
           ),

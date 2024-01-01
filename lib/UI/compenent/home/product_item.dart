@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/home/add_basket_button.dart';
 import 'package:web_db/UI/compenent/home/rating.dart';
@@ -37,15 +36,20 @@ class ProductItem extends StatelessWidget {
                   itemCount: product.pictures!.length,
                   allowImplicitScrolling: true,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => CachedNetworkImage(
-                    imageUrl: product.pictures![index],
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Center(
-                      child: CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                  itemBuilder: (context, index) => Image.network(
+                    product.pictures![index],
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
                   ),
                 )),
             Expanded(

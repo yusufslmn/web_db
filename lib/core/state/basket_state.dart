@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/view/basket.dart';
-import 'package:web_db/core/service/basket/get_basket_service.dart';
 
 abstract class StateBasket extends ConsumerState<Basket> {
   final String title = "Sepetim";
-
+  String? couponCode;
+  double? discount;
+  final ExpansionTileController expansionTileController =
+      ExpansionTileController();
+  final ScrollController controller = ScrollController();
   @override
   void initState() {
     super.initState();

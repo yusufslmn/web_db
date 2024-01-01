@@ -2,8 +2,9 @@
 class AddBasketModel {
   int? productId;
   int? quantity;
+  List<int?>? attributeItemIds;
 
-  AddBasketModel({this.productId, this.quantity});
+  AddBasketModel({this.productId, this.quantity, this.attributeItemIds});
 
   AddBasketModel.fromJson(Map<String, dynamic> json) {
     productId = json['productId'];
@@ -14,10 +15,7 @@ class AddBasketModel {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['productId'] = productId;
     data['quantity'] = quantity;
+    data['attributeItemIds'] = attributeItemIds;
     return data;
   }
-
-  @override
-  String toString() =>
-      'AddBasketModel(productId: $productId, quantity: $quantity)';
 }

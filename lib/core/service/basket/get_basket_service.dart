@@ -12,7 +12,7 @@ Future<BasketModal> fetchBasketItem() async {
   );
   if (response.statusCode == HttpStatus.ok) {
     final data = jsonDecode(response.body);
-    print("basket data geldi");
+    print(data);
     return BasketModal.fromJson(data);
   } else {
     throw Exception('Ürünler yüklenemedi');

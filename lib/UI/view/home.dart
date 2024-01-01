@@ -116,24 +116,10 @@ class _HomeState extends StateHome {
                     flex: 6,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
+                      child: Image.asset(
                         imagesUrl[index],
                         height: context.height(0.48),
                         fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          );
-                        },
                       ),
                     ),
                   ),
@@ -156,34 +142,25 @@ class _HomeState extends StateHome {
             scrollDirection: Axis.horizontal,
             itemCount: imagesUrl.length,
             controller: scrollController,
-            itemBuilder: (context, index) => Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              padding: imagesUrl[index] == imagesUrl[indexPage]
-                  ? const EdgeInsets.all(2)
-                  : EdgeInsets.zero,
-              decoration: BoxDecoration(
-                  color: imagesUrl[index] == imagesUrl[indexPage]
-                      ? Colors.white
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16)),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.network(
-                  imagesUrl[index],
-                  color: Colors.transparent,
-                  fit: BoxFit.contain,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: () => pageController.jumpToPage(index),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: imagesUrl[index] == imagesUrl[indexPage]
+                    ? const EdgeInsets.all(2)
+                    : EdgeInsets.zero,
+                decoration: BoxDecoration(
+                    color: imagesUrl[index] == imagesUrl[indexPage]
+                        ? Colors.white
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    imagesUrl[index],
+                    color: Colors.transparent,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ),
@@ -196,13 +173,13 @@ class _HomeState extends StateHome {
 }
 
 List<String> imagesUrl = [
-  "https://picsum.photos/id/1/800/500",
-  "https://picsum.photos/id/22/800/500",
-  "https://picsum.photos/id/32/800/500",
-  "https://picsum.photos/id/43/800/500",
-  "https://picsum.photos/id/51/800/500",
-  "https://picsum.photos/id/61/800/500",
-  "https://picsum.photos/id/71/800/500",
+  "images/1.jpg",
+  "images/2.jpg",
+  "images/3.jpg",
+  "images/4.jpg",
+  "images/5.jpg",
+  "images/6.jpg",
+  "images/7.jpg",
 ];
 
 List<String> textImages1 = [

@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ProductProperty extends StatefulWidget {
-  const ProductProperty({super.key});
-
-  @override
-  State<ProductProperty> createState() => _ProductPropertyState();
-}
-
-class _ProductPropertyState extends State<ProductProperty> {
+class ProductProperty extends StatelessWidget {
+  const ProductProperty({super.key, required this.productDetail});
+  final String productDetail;
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        ListTile(
-          title: Text("data"),
-        ),
-        ListTile(
-          title: Text("data"),
-        ),
-        ListTile(
-          title: Text("data"),
-        ),
-        ListTile(
-          title: Text("data"),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(productDetail),
         )
       ],
     );

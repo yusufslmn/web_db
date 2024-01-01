@@ -1,3 +1,5 @@
+import 'package:web_db/core/model/product/product_property_model.dart';
+
 class ProductDetailModel {
   int? id;
   double? campaignPrice;
@@ -8,6 +10,7 @@ class ProductDetailModel {
   List<dynamic>? pictures;
   String? description;
   String? brandName;
+  List<Attributes>? attributes;
 
   ProductDetailModel(
       {this.id,
@@ -15,6 +18,7 @@ class ProductDetailModel {
       this.price,
       this.name,
       this.rating,
+      this.attributes,
       this.commentCount,
       this.brandName,
       this.pictures,
@@ -22,6 +26,13 @@ class ProductDetailModel {
 
   ProductDetailModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    if (json['attributes'] != null) {
+      final List<dynamic> list = json['attributes'] as List<dynamic>;
+      attributes = list.map((v) {
+        if (v != null) v as Map<String, dynamic>;
+        return Attributes.fromJson(v);
+      }).toList();
+    }
     campaignPrice = json['campaignPrice'];
     price = json['price'];
     name = json['name'];

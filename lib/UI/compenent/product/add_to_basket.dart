@@ -6,8 +6,10 @@ import 'package:web_db/core/model/basket/add_basket_modal.dart';
 import 'package:web_db/core/service/basket/add_basket_service.dart';
 
 class AddToBasket extends ConsumerStatefulWidget {
-  const AddToBasket({super.key, required this.productId});
+  const AddToBasket(
+      {super.key, required this.productId, required this.attributes});
   final int productId;
+  final List<int?> attributes;
   @override
   ConsumerState<AddToBasket> createState() => _AddToBasketState();
 }
@@ -111,7 +113,10 @@ class _AddToBasketState extends ConsumerState<AddToBasket> {
                   onPressed: () async {
                     _changeLoading();
                     addToBasketItem = AddBasketModel(
-                        productId: widget.productId, quantity: quantity);
+                      productId: widget.productId,
+                      attributeItemIds: widget.attributes,
+                      quantity: quantity,
+                    );
                     await addToBasket(addToBasketItem).then((value) {
                       if (value) {
                         showDialog(

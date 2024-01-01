@@ -6,6 +6,7 @@ class GetBasketItemModel {
   String? productName;
   String? brandName;
   List<dynamic>? pictures;
+  List<dynamic>? attributes;
 
   GetBasketItemModel(
       {this.productId,
@@ -13,6 +14,7 @@ class GetBasketItemModel {
       this.price,
       this.brandName,
       this.productName,
+      this.attributes,
       this.campaignPrice,
       this.pictures});
 
@@ -20,6 +22,7 @@ class GetBasketItemModel {
     productId = json['productId'];
     quantity = json['quantity'];
     price = json['price'];
+    attributes = json['attributes'];
     productName = json['productName'];
     brandName = json['brandName'];
     campaignPrice = json['campaignPrice'];

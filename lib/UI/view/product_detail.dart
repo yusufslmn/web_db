@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cross_scroll/cross_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,13 +8,13 @@ import 'package:web_db/UI/compenent/product/add_to_basket.dart';
 import 'package:web_db/UI/compenent/product/campaign.dart';
 import 'package:web_db/UI/compenent/product/custom_text_style.dart';
 import 'package:web_db/UI/compenent/product/image_container.dart';
-import 'package:web_db/UI/compenent/product/love_and_compare.dart';
 import 'package:web_db/UI/compenent/product/name.dart';
 import 'package:web_db/UI/compenent/product/price.dart';
-import 'package:web_db/UI/compenent/product/select_colors.dart';
 import 'package:web_db/UI/compenent/product/seller_container.dart';
+import 'package:web_db/UI/view/compare.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 import 'package:web_db/core/state/product_state.dart';
 import '../compenent/product/comments.dart';
 import '../compenent/product/product_property.dart';
@@ -85,17 +87,97 @@ class _ProductDetailState extends ProductState with TickerProviderStateMixin {
                                             seller:
                                                 productDetailModel?.brandName ??
                                                     "Hepsibunda"),
-                                        Text(
-                                          "Renk",
-                                          style: CustomTextStyle.sellerStyle,
+                                        SizedBox(
+                                          height: context.height(0.08),
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: productDetailModel!
+                                                    .attributes?.length ??
+                                                0,
+                                            itemBuilder: (context, index) =>
+                                                Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: DropdownButton(
+                                                value: attributesId[index],
+                                                dropdownColor: PColors
+                                                    .productBackContainer,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                hint: Text(productDetailModel!
+                                                        .attributes?[index]
+                                                        .name ??
+                                                    " "),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    attributesId[index] = value;
+                                                    print(attributesId[index]);
+                                                  });
+                                                },
+                                                items: productDetailModel!
+                                                    .attributes?[index].items!
+                                                    .map((v) =>
+                                                        DropdownMenuItem(
+                                                            value: v.id,
+                                                            child: Text(
+                                                                v.name ?? " ")))
+                                                    .toList(),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                        const SelectColor(),
                                         AddToBasket(
+                                            attributes: attributesId,
                                             productId:
                                                 productDetailModel!.id ?? 0),
                                         const Spacer(),
                                         const Divider(),
-                                        const LoveAndCompare()
+                                        Row(
+                                          children: [
+                                            TextButton.icon(
+                                                onPressed: () {},
+                                                icon: const Icon(Icons
+                                                    .favorite_border_outlined),
+                                                label: const Text("Beğen")),
+                                            TextButton.icon(
+                                                onPressed: () {
+                                                  if (ref
+                                                          .read(productProvider)
+                                                          .compareList
+                                                          .length <=
+                                                      2) {
+                                                    if (!(ref
+                                                        .read(productProvider)
+                                                        .compareList
+                                                        .contains(
+                                                            productDetailModel!))) {
+                                                      ref
+                                                          .read(productProvider)
+                                                          .compareList
+                                                          .add(
+                                                              productDetailModel!);
+                                                      setState(() {});
+                                                      if (ref
+                                                              .read(
+                                                                  productProvider)
+                                                              .compareList
+                                                              .length ==
+                                                          2) {
+                                                        pushToPage(
+                                                            context, Compare());
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                icon: const Icon(Icons
+                                                    .compare_arrows_outlined),
+                                                label:
+                                                    const Text("Karşılaştır")),
+                                            Text(
+                                                "${ref.watch(productProvider).compareList.length}")
+                                          ],
+                                        )
                                       ],
                                     )),
                               ),
@@ -122,15 +204,16 @@ class _ProductDetailState extends ProductState with TickerProviderStateMixin {
                         width: context.width(0.7),
                         margin: EdgeInsets.symmetric(
                             vertical: 20, horizontal: context.width(0.15)),
-                        height: context.height(1),
+                        height: context.height(1.5),
                         child: PageView(
                           physics: const NeverScrollableScrollPhysics(),
                           controller: bottomTabController,
                           children: [
-                            SizedBox(
-                                width: context.width(0.5),
-                                child: Comments(productId: widget.id)),
-                            const ProductProperty(),
+                            Comments(productId: widget.id),
+                            ProductProperty(
+                              productDetail:
+                                  productDetailModel?.description ?? " ",
+                            ),
                             const Campaign(),
                           ],
                         ),

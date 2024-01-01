@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/view/product_detail.dart';
 import 'package:web_db/core/model/product/product_detail_model.dart';
-import 'package:web_db/core/model/product/showroom_product_model.dart';
 import 'package:web_db/core/service/product/get_product_detail.dart';
 
 abstract class ProductState extends ConsumerState<ProductDetail> {
@@ -10,7 +9,9 @@ abstract class ProductState extends ConsumerState<ProductDetail> {
   PageController bottomTabController = PageController();
   String temp = "default";
   bool isLoading = false;
+  List<int?> attributesId = [null, null, null];
   ProductDetailModel? productDetailModel;
+
   void _changeLoading() {
     setState(() {
       isLoading = !isLoading;
@@ -26,19 +27,14 @@ abstract class ProductState extends ConsumerState<ProductDetail> {
   @override
   void initState() {
     fetchProduct(widget.id);
-
     super.initState();
   }
 }
 
-// ignore: constant_identifier_names
-enum ColorsName { Mavi, Yesil, Mor }
-
 class ProductNotifier extends ChangeNotifier {
   int indexPage = 0;
-  String color = "Mavi";
-  List<Color?> colors = [Colors.blue, Colors.green, Colors.deepPurple];
-  List<ShowroomProduct>? compareList;
+
+  List<ProductDetailModel> compareList = [];
   PageController pageController = PageController();
 
   void nextImage() async {

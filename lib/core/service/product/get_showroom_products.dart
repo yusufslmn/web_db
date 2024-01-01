@@ -14,7 +14,7 @@ Future<List<ShowroomProduct>> fetchShowroomProduct() async {
     if (data is List) {
       return data.map((e) => ShowroomProduct.fromJson(e)).toList();
     } else {
-      throw Exception('Failed to load products');
+      throw Exception('liste boşş loo');
     }
   } else {
     throw Exception('Failed to load products');

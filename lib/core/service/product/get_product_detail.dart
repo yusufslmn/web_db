@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:web_db/core/model/product/product_detail_model.dart';
@@ -11,7 +13,7 @@ Future<ProductDetailModel> fetchProductDetail(int id) async {
   );
   if (response.statusCode == HttpStatus.ok) {
     final data = jsonDecode(response.body);
-
+    print(data);
     return ProductDetailModel.fromJson(data);
   } else {
     throw Exception('Failed to load products');
