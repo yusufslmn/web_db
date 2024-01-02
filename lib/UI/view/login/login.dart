@@ -1,64 +1,20 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/view/seller_panel.dart';
+import 'package:web_db/UI/view/login/register.dart';
+import 'package:web_db/UI/view/admin/admin_login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/service/login/admin_login.dart';
-import 'package:web_db/core/service/service.dart';
 import 'package:web_db/core/settings/route_settings.dart';
+import 'package:web_db/core/state/login_state.dart';
 
-class SellerLogin extends StatefulWidget {
-  const SellerLogin({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<SellerLogin> createState() => _SellerLoginState();
+  State<Login> createState() => _LoginState();
 }
 
-class _SellerLoginState extends State<SellerLogin> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool isPrivate = true;
-  bool isLoading = false;
-
-  void changeLoading() {
-    setState(() {
-      isLoading = !isLoading;
-    });
-  }
-
-  void handleLogin() async {
-    if (_formKey.currentState!.validate()) {
-      String email = emailController.text;
-      String password = passwordController.text;
-      IService.basicAuth = encodeBasic(email: email, password: password);
-
-      changeLoading();
-      if (await adminLogin(basicAuth: IService.basicAuth)) {
-        IService.email = email;
-        IService.password = password;
-        print("success");
-        changeLoading();
-        pushToPage(context, const SellerPanel());
-      } else {
-        print("yasak ulen");
-        changeLoading();
-        await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: const Text("Email Veya Parolanız Yanlış"),
-                  actions: [
-                    ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("İlerle"))
-                  ],
-                ));
-      }
-    }
-  }
-
+class _LoginState extends StateLogin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +23,7 @@ class _SellerLoginState extends State<SellerLogin> {
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,7 +31,7 @@ class _SellerLoginState extends State<SellerLogin> {
                     children: [
                       const Spacer(flex: 2),
                       Text(
-                        "Hepsibunda Mağaza Paneli",
+                        "Hepsionda",
                         style: GoogleFonts.poppins(
                           color: PColors.mainColor,
                           fontSize: context.height(0.035),
@@ -163,6 +119,44 @@ class _SellerLoginState extends State<SellerLogin> {
                                 ),
                               ),
                             ),
+                            Container(
+                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                alignment: Alignment.center,
+                                child: Row(
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: const Text(
+                                          "Şifremi Unuttum",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: PColors.mainColor),
+                                        )),
+                                    const Spacer(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
+                                      child: TextButton(
+                                          onPressed: () => pushToPage(
+                                              context, const SellerLogin()),
+                                          child: const Text(
+                                            "Mağaza Giriş",
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: PColors.mainColor),
+                                          )),
+                                    ),
+                                    TextButton(
+                                        onPressed: () => Navigator.of(context)
+                                            .pushNamed(Routes.registerRoute),
+                                        child: const Text(
+                                          "Üye Ol",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: PColors.mainColor),
+                                        )),
+                                  ],
+                                ))
                           ],
                         ),
                       ),

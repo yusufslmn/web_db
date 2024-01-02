@@ -1,9 +1,8 @@
 import 'package:desktop_scrollbar/desktop_scrollbar.dart';
 import 'package:flutter/material.dart';
-import 'package:web_db/UI/compenent/common/top_app_bar.dart';
 import 'package:web_db/UI/compenent/home/rating.dart';
 import 'package:web_db/UI/compenent/home/top_seller.dart';
-import 'package:web_db/UI/view/admin_product_comment.dart';
+import 'package:web_db/UI/view/admin/admin_product_comment.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/product/showroom_product_model.dart';
@@ -87,7 +86,7 @@ class _CategoryState extends State<AdminProducts> {
                                             Widget child,
                                             ImageChunkEvent? loadingProgress) {
                                           if (loadingProgress == null)
-                                            return child;
+                                            return Placeholder();
                                           return Center(
                                             child: CircularProgressIndicator(
                                               value: loadingProgress

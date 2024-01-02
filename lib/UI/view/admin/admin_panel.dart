@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:web_db/UI/view/admin_chat.dart';
-import 'package:web_db/UI/view/admin_products.dart';
-import 'package:web_db/UI/view/category.dart';
-import 'package:web_db/UI/view/login.dart';
+import 'package:web_db/UI/view/admin/admin_chat.dart';
+import 'package:web_db/UI/view/admin/admin_products.dart';
+import 'package:web_db/UI/view/login/login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/category/category_model.dart';

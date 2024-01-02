@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/home/add_basket_button.dart';
 import 'package:web_db/UI/compenent/home/rating.dart';
 import 'package:web_db/UI/compenent/home/top_seller.dart';
-import 'package:web_db/UI/view/product_detail.dart';
+import 'package:web_db/UI/view/product/product_detail.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/product/showroom_product_model.dart';
 import 'package:web_db/core/settings/route_settings.dart';

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/view/chat.dart';
+import 'package:web_db/UI/view/profile/chat.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/service/chat/chat_service.dart';
 

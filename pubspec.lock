@@ -605,6 +605,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.3"
+  webview_flutter_platform_interface:
+    dependency: transitive
+    description:
+      name: webview_flutter_platform_interface
+      sha256: dbe745ee459a16b6fec296f7565a8ef430d0d681001d8ae521898b9361854943
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.9.0"
+  webview_flutter_web:
+    dependency: "direct main"
+    description:
+      name: webview_flutter_web
+      sha256: b6334cb5b44a5cc9ddec38ce132c7b9a3054d921768a13f95b8cd798ee5f17b4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2+3"
   win32:
     dependency: transitive
     description:
@@ -623,4 +639,4 @@ packages:
     version: "1.0.3"
 sdks:
   dart: ">=3.2.0 <=3.7.12"
-  flutter: ">=3.10.0"
+  flutter: ">=3.13.0"

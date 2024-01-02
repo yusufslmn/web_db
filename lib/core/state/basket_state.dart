@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:web_db/UI/view/basket.dart';
+import 'package:web_db/UI/view/basket/basket.dart';
 
 abstract class StateBasket extends ConsumerState<Basket> {
   final String title = "Sepetim";

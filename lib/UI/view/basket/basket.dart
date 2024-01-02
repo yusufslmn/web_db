@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/basket/basket_custom_listtile.dart';
-import 'package:web_db/UI/compenent/common/top_app_bar.dart';
-import 'package:web_db/UI/view/buying.dart';
-import 'package:web_db/UI/view/home.dart';
+import 'package:web_db/UI/compenent/appBar/top_app_bar.dart';
+import 'package:web_db/UI/view/basket/buying.dart';
+import 'package:web_db/UI/view/home/home.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/basket/basket_model.dart';

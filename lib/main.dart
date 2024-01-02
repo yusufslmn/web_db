@@ -2,7 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:web_db/UI/view/login.dart';
+import 'package:web_db/UI/view/basket/basket.dart';
+import 'package:web_db/UI/view/home/home.dart';
+import 'package:web_db/UI/view/login/login.dart';
+import 'package:web_db/UI/view/login/register.dart';
+import 'package:web_db/UI/view/profile/profile.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,23 +32,37 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hepsionda',
+      initialRoute: Routes.loginRoute,
       debugShowCheckedModeBanner: false,
+      routes: {
+        Routes.homeRoute: (context) => const Home(),
+        Routes.loginRoute: (context) => const Login(),
+        Routes.profileRoute: (context) => const Profile(),
+        Routes.basketRoute: (context) => const Basket(),
+        Routes.registerRoute: (context) => const RegistrationScreen()
+      },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         useMaterial3: true,
       ),
-      home: const Login(),
     );
   }
 }
 
-// ana sayfa
-// ürün detay
-// sepet
-// profil sayfası
-// arama sayfası
-// kategori sayfası
-//siparişlerim
+//admin panel
+//admin chat
+//admin product // category id, categoryname
+//admin products comments // product ıd
+//buying page
+//compare // id1 ,id2 ,isShow
+//login
+//register
+//seller login
+// home page
+// product detail / productid
+// basket
+// profile
+// category //category id ,category name
 
 class FirebaseConfig {
   static String apiKey = "AIzaSyATmDFkAPJRLZJ2ybDJmcIwTM2DCCeHPVM";

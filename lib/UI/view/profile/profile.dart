@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:web_db/UI/compenent/basket/basket_custom_listtile.dart';
-import 'package:web_db/UI/compenent/common/top_app_bar.dart';
-import 'package:web_db/UI/view/adress.dart';
-import 'package:web_db/UI/view/chat.dart';
-import 'package:web_db/UI/view/compare.dart';
-import 'package:web_db/UI/view/uptade_password.dart';
-import 'package:web_db/UI/view/user_info.dart';
+import 'package:web_db/UI/compenent/appBar/top_app_bar.dart';
+import 'package:web_db/UI/view/profile/adress.dart';
+import 'package:web_db/UI/view/profile/chat.dart';
+import 'package:web_db/UI/view/product/compare.dart';
+import 'package:web_db/UI/view/profile/uptade_password.dart';
+import 'package:web_db/UI/view/profile/user_info.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/comment/post_comment_model.dart';
@@ -163,14 +163,24 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
           child: Column(
             children: [
               const TopAppBar(),
-              Container(
-                alignment: Alignment.centerLeft,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15),
-                child: const Text(
-                  "Kullanıcı Bilgilerim",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 15),
+                    child: const Text(
+                      "Kullanıcı Bilgilerim",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () => pushNamed(context, Routes.loginRoute),
+                      icon: Icon(Icons.exit_to_app))
+                ],
               ),
               SizedBox(
                 width: context.width(0.7),

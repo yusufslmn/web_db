@@ -1,14 +1,14 @@
 import 'package:cross_scroll/cross_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:web_db/UI/compenent/common/top_app_bar.dart';
+import 'package:web_db/UI/compenent/appBar/top_app_bar.dart';
 import 'package:web_db/UI/compenent/product/custom_text_style.dart';
 import 'package:web_db/UI/compenent/product/image_container.dart';
 import 'package:web_db/UI/compenent/product/name.dart';
 import 'package:web_db/UI/compenent/product/price.dart';
 import 'package:web_db/UI/compenent/product/product_property.dart';
 import 'package:web_db/UI/compenent/product/seller_container.dart';
-import 'package:web_db/UI/view/home.dart';
+import 'package:web_db/UI/view/home/home.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/product/product_detail_model.dart';

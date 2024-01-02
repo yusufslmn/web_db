@@ -3,7 +3,7 @@
 import 'package:cross_scroll/cross_scroll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:web_db/UI/compenent/common/top_app_bar.dart';
+import 'package:web_db/UI/compenent/appBar/top_app_bar.dart';
 import 'package:web_db/UI/compenent/product/add_to_basket.dart';
 import 'package:web_db/UI/compenent/product/campaign.dart';
 import 'package:web_db/UI/compenent/product/custom_text_style.dart';
@@ -11,13 +11,13 @@ import 'package:web_db/UI/compenent/product/image_container.dart';
 import 'package:web_db/UI/compenent/product/name.dart';
 import 'package:web_db/UI/compenent/product/price.dart';
 import 'package:web_db/UI/compenent/product/seller_container.dart';
-import 'package:web_db/UI/view/compare.dart';
+import 'package:web_db/UI/view/product/compare.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 import 'package:web_db/core/state/product_state.dart';
-import '../compenent/product/comments.dart';
-import '../compenent/product/product_property.dart';
+import '../../compenent/product/comments.dart';
+import '../../compenent/product/product_property.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
   const ProductDetail({super.key, required this.id});

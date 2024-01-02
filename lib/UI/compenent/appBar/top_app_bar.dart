@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:web_db/UI/compenent/home/app_bar.dart';
 import 'package:web_db/UI/compenent/home/list_category.dart';
 import 'package:web_db/UI/compenent/home/row_colors_top.dart';
-import 'package:web_db/UI/view/category.dart';
+import 'package:web_db/UI/view/category/category.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/category/category_model.dart';

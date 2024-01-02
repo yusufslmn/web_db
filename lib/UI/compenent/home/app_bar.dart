@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/view/basket.dart';
-import 'package:web_db/UI/view/home.dart';
-import 'package:web_db/UI/view/profile.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/settings/route_settings.dart';
@@ -35,7 +32,7 @@ class AppBarCustom extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () => pushToPage(context, const Home()),
+                onTap: () => pushNamed(context, Routes.homeRoute),
                 child: Text(
                   title,
                   style: GoogleFonts.poppins(
@@ -108,7 +105,7 @@ class AppBarCustom extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8))),
               onPressed: () {
-                pushToPage(context, const Basket());
+                Navigator.of(context).pushNamed(Routes.basketRoute);
               },
               child: const Icon(
                 Icons.shopping_cart,
@@ -126,7 +123,7 @@ class AppBarCustom extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8))),
               onPressed: () {
-                pushToPage(context, const Profile());
+                Navigator.of(context).pushNamed(Routes.profileRoute);
               },
               child: const Icon(
                 Icons.account_circle_rounded,

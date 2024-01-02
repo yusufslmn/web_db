@@ -1,6 +1,6 @@
 {
-    "name": "web_db",
-    "short_name": "web_db",
+    "name": "Hepsionda",
+    "short_name": "Hepsionda",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
