@@ -2,8 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:web_db/UI/view/admin/admin_login.dart';
+import 'package:web_db/UI/view/admin/admin_panel.dart';
 import 'package:web_db/UI/view/basket/basket.dart';
 import 'package:web_db/UI/view/home/home.dart';
+import 'package:web_db/UI/view/login/forget_password.dart';
 import 'package:web_db/UI/view/login/login.dart';
 import 'package:web_db/UI/view/login/register.dart';
 import 'package:web_db/UI/view/profile/profile.dart';
@@ -41,7 +44,10 @@ class MyApp extends StatelessWidget {
         Routes.loginRoute: (context) => const Login(),
         Routes.profileRoute: (context) => const Profile(),
         Routes.basketRoute: (context) => const Basket(),
-        Routes.registerRoute: (context) => const RegistrationScreen()
+        Routes.registerRoute: (context) => const RegistrationScreen(),
+        Routes.forgetPassword: (context) => const ForgetPassword(),
+        Routes.adminPanel: (context) => const SellerPanel(),
+        Routes.adminLoginRoute: (context) => const SellerLogin(),
       },
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
@@ -52,10 +58,10 @@ class MyApp extends StatelessWidget {
 }
 
 //admin panel
-//admin chat
+//admin chat // chat ıd
 //admin product // category id, categoryname
 //admin products comments // product ıd
-//buying page
+//buying page // totalPrice
 //compare // id1 ,id2 ,isShow
 //login
 //register
@@ -64,6 +70,7 @@ class MyApp extends StatelessWidget {
 // product detail / productid
 // basket
 // profile
+// forget password
 // category //category id ,category name
 
 class FirebaseConfig {

@@ -61,6 +61,14 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
   }
 
   @override
+  void dispose() {
+    nameController.clear();
+    surnameController.clear();
+    emailController.clear();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     fetchData();
     super.initState();
@@ -156,7 +164,11 @@ class _UyelikBilgilerimState extends State<UyelikBilgilerim> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                     maxLines: 1,
-                    initialValue: initalGender! ? "Erkek" : "Kadın",
+                    initialValue: initalGender == null
+                        ? "Cinsiyet Belirtilmedi"
+                        : initalGender == true
+                            ? "Erkek"
+                            : "Kadın",
                     enabled: false,
                     decoration: InputDecoration(
                       label: const Text("Cinsiyet"),

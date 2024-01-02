@@ -124,7 +124,8 @@ class _LoginState extends StateLogin {
                                 child: Row(
                                   children: [
                                     TextButton(
-                                        onPressed: () {},
+                                        onPressed: () => Navigator.of(context)
+                                            .pushNamed(Routes.forgetPassword),
                                         child: const Text(
                                           "Şifremi Unuttum",
                                           style: TextStyle(

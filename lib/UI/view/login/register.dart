@@ -142,7 +142,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 value: check,
                                 onChanged: (value) => setState(() {
                                   check = !check;
+
                                   if (value == true) {
+                                    check1 = false;
                                     isGender = true;
                                   } else {
                                     isGender = null;
@@ -156,6 +158,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                                 onChanged: (value) => setState(() {
                                   check1 = !check1;
                                   if (value == true) {
+                                    check = false;
                                     isGender = false;
                                   } else {
                                     isGender = null;

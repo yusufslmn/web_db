@@ -14,7 +14,10 @@ Future<dynamic> pushNamed(BuildContext context, String pageRoute) =>
 class Routes {
   static const String homeRoute = "/home";
   static const String loginRoute = "/login";
+  static const String adminLoginRoute = "/adminlogin";
   static const String basketRoute = "/basket";
   static const String profileRoute = "/profile";
   static const String registerRoute = "/register";
+  static const String forgetPassword = "/forgetpassword";
+  static const String adminPanel = "/admin";
 }

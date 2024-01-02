@@ -202,6 +202,7 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                                           IService.email = "";
                                           IService.password = "";
                                           IService.saveBasicAuth();
+                                          IService.loadBasicAuth();
                                           IService.validationUser = false;
                                           Navigator.of(context)
                                               .pushNamedAndRemoveUntil(

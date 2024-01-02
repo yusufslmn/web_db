@@ -66,6 +66,8 @@ class IService {
         return Uri.parse('${IService.baseUrl}Order/GetOrders');
       case 'verifyMailHOTP':
         return Uri.parse('${IService.baseUrl}User/VerifyMailHOTP');
+      case 'resetPassword':
+        return Uri.parse('${IService.baseUrl}User/ResetPassword');
       case 'updateUserData':
         return Uri.parse('${IService.baseUrl}User/UpdateAccountData');
       case 'getShowroomProducts':
@@ -87,6 +89,7 @@ enum ApiRouteName {
   uptdatePassword,
   register,
   getOrder,
+  resetPassword,
   login,
   adminLogin,
   sendMailHOTP,
