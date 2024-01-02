@@ -4,8 +4,8 @@ class IService {
   static String baseUrl = 'https://ditsat.com/api/';
   static String basicAuth =
       'Basic ${base64Encode(utf8.encode('$email:$password'))}';
-  static String email = "yusufslmn@outlook.com.tr";
-  static String password = "yusuf2001";
+  static String email = "";
+  static String password = "";
   static bool validationUser = false;
 
   static Map<String, String> baseHeader = {
