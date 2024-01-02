@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:web_db/UI/view/login/login.dart';
 import 'package:web_db/core/service/login/login_service.dart';
 import 'package:web_db/core/service/service.dart';
+import 'package:web_db/core/settings/route_settings.dart';
 
 abstract class StateLogin extends State<Login> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -29,7 +30,11 @@ abstract class StateLogin extends State<Login> {
         IService.password = password;
         print("success");
         changeLoading();
-        Navigator.of(context).pushNamed("/home");
+        IService.saveBasicAuth();
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          Routes.homeRoute,
+          (route) => false,
+        );
       } else {
         print("yasak ulen");
         changeLoading();

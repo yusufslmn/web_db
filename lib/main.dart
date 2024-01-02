@@ -7,6 +7,7 @@ import 'package:web_db/UI/view/home/home.dart';
 import 'package:web_db/UI/view/login/login.dart';
 import 'package:web_db/UI/view/login/register.dart';
 import 'package:web_db/UI/view/profile/profile.dart';
+import 'package:web_db/core/service/service.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 
 void main() async {
@@ -23,6 +24,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
+  IService.loadBasicAuth();
   runApp(const ProviderScope(child: MyApp()));
 }
 

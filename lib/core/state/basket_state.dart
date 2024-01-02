@@ -6,6 +6,7 @@ abstract class StateBasket extends ConsumerState<Basket> {
   final String title = "Sepetim";
   String? couponCode;
   double? discount;
+  bool dropCoupon = true;
   final ExpansionTileController expansionTileController =
       ExpansionTileController();
   final ScrollController controller = ScrollController();

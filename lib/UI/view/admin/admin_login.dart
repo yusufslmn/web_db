@@ -42,6 +42,7 @@ class _SellerLoginState extends State<SellerLogin> {
         print("success");
         changeLoading();
         pushToPage(context, const SellerPanel());
+        IService.saveBasicAuth();
       } else {
         print("yasak ulen");
         changeLoading();

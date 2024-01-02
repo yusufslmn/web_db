@@ -178,7 +178,47 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                     ),
                   ),
                   IconButton(
-                      onPressed: () => pushNamed(context, Routes.loginRoute),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                              actions: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Sayfada Kal"),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          IService.basicAuth = "";
+                                          IService.email = "";
+                                          IService.password = "";
+                                          IService.saveBasicAuth();
+                                          IService.validationUser = false;
+                                          Navigator.of(context)
+                                              .pushNamedAndRemoveUntil(
+                                            Routes.loginRoute,
+                                            (route) => false,
+                                          );
+                                        },
+                                        child: const Text("Çıkış Yap"),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                              title: const Text(
+                                  "Çıkmak istediğinize eminmisiniz?")),
+                        );
+                      },
                       icon: Icon(Icons.exit_to_app))
                 ],
               ),

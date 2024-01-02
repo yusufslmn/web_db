@@ -9,6 +9,7 @@ import 'package:web_db/core/Utility/screen_size.dart';
 import 'package:web_db/core/model/category/category_model.dart';
 import 'package:web_db/core/service/category/get_category_names.dart';
 import 'package:web_db/core/service/comment/add_commen_to_comment.dart';
+import 'package:web_db/core/service/service.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 
 class SellerPanel extends StatefulWidget {
@@ -117,7 +118,14 @@ class _SellerPanelState extends State<SellerPanel> {
         leadingWidth: context.width(0.1),
         actions: [
           IconButton(
-              onPressed: () => pushReplacement(context, const Login()),
+              onPressed: () {
+                IService.basicAuth = "";
+                IService.email = "";
+                IService.password = "";
+                IService.saveBasicAuth();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    Routes.loginRoute, (route) => false);
+              },
               icon: const Icon(Icons.exit_to_app))
         ],
         title: const Text(

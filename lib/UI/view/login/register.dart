@@ -50,7 +50,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           password: _passwordController.text);
       if (await register(loginModel!)) {
         // ignore: use_build_context_synchronously
-        pushReplacement(context, const Login());
+        Navigator.of(context).pushNamed(Routes.loginRoute);
       } else {
         // ignore: use_build_context_synchronously
         showDialog(

@@ -1,9 +1,21 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IService {
   static String baseUrl = 'https://ditsat.com/api/';
   static String basicAuth =
       'Basic ${base64Encode(utf8.encode('$email:$password'))}';
+
+  static void loadBasicAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    basicAuth = prefs.getString('basicAuth') ?? "";
+  }
+
+  static void saveBasicAuth() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('basicAuth', basicAuth);
+  }
+
   static String email = "";
   static String password = "";
   static bool validationUser = false;

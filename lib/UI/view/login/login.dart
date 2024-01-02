@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/UI/view/login/register.dart';
 import 'package:web_db/UI/view/admin/admin_login.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';

@@ -7,7 +7,7 @@ abstract class StateHome extends State<Home> {
   final PageController pageController = PageController();
   final ScrollController scrollController = ScrollController();
   int indexPage = 0;
-
+  bool canPop = false;
   void nextPage() async {
     await pageController.nextPage(
         duration: const Duration(milliseconds: 10), curve: Curves.bounceInOut);

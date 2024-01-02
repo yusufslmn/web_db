@@ -98,7 +98,7 @@ class _BasketState extends StateBasket {
                                           children: [
                                             FutureBuilder<List<CouponModel>>(
                                               future: getUserCoupons(),
-                                              builder: (context, snapshot) {
+                                              builder: (context, snapshot2) {
                                                 if (snapshot.hasData) {
                                                   return Container(
                                                       height:
@@ -109,7 +109,7 @@ class _BasketState extends StateBasket {
                                                       child: Scrollbar(
                                                         controller: controller,
                                                         child: ListView.builder(
-                                                          itemCount: snapshot
+                                                          itemCount: snapshot2
                                                                   .data
                                                                   ?.length ??
                                                               0,
@@ -157,7 +157,7 @@ class _BasketState extends StateBasket {
                                                                             .all(
                                                                             4.0),
                                                                     child: Text(
-                                                                      "${snapshot.data![index].code}",
+                                                                      "${snapshot2.data![index].code}",
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -176,7 +176,7 @@ class _BasketState extends StateBasket {
                                                                             .all(
                                                                             8.0),
                                                                     child: Text(
-                                                                      "Her üründe geçerli ${snapshot.data![index].discount}TL",
+                                                                      "Her üründe geçerli ${snapshot2.data![index].discount}TL",
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -191,7 +191,7 @@ class _BasketState extends StateBasket {
                                                                             .all(
                                                                             8.0),
                                                                     child: Text(
-                                                                      "Son  ${snapshot.data![index].remainedQuantity ?? 1} adet",
+                                                                      "Son  ${snapshot2.data![index].remainedQuantity ?? 1} adet",
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -205,21 +205,36 @@ class _BasketState extends StateBasket {
                                                                         const EdgeInsets
                                                                             .all(
                                                                             8.0),
-                                                                    child: snapshot.data?[index].isAvailable ==
-                                                                            true
-                                                                        ? ElevatedButton(
-                                                                            style:
-                                                                                ElevatedButton.styleFrom(backgroundColor: PColors.mainColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-                                                                            onPressed: () {
-                                                                              setState(() {
-                                                                                couponCode = snapshot.data?[index].code;
-                                                                                discount = snapshot.data![index].discount;
-                                                                              });
-                                                                            },
-                                                                            child: const Text(
-                                                                              "Kuponu Kullan",
-                                                                              style: TextStyle(color: Colors.white),
-                                                                            ))
+                                                                    child: snapshot2.data?[index].isAvailable ==
+                                                                                true &&
+                                                                            snapshot.data!.items!.isNotEmpty
+                                                                        ? dropCoupon
+                                                                            ? ElevatedButton(
+                                                                                style: ElevatedButton.styleFrom(backgroundColor: PColors.mainColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+                                                                                onPressed: () {
+                                                                                  setState(() {
+                                                                                    couponCode = snapshot2.data?[index].code;
+                                                                                    discount = snapshot2.data![index].discount;
+                                                                                    dropCoupon = false;
+                                                                                  });
+                                                                                },
+                                                                                child: const Text(
+                                                                                  "Kuponu Kullan",
+                                                                                  style: TextStyle(color: Colors.white),
+                                                                                ))
+                                                                            : ElevatedButton(
+                                                                                style: ElevatedButton.styleFrom(backgroundColor: PColors.mainColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
+                                                                                onPressed: () {
+                                                                                  setState(() {
+                                                                                    couponCode = null;
+                                                                                    discount = 0;
+                                                                                    dropCoupon = true;
+                                                                                  });
+                                                                                },
+                                                                                child: const Text(
+                                                                                  "Kuponu Çıkart",
+                                                                                  style: TextStyle(color: Colors.white),
+                                                                                ))
                                                                         : ElevatedButton(
                                                                             style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 209, 150, 114), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
                                                                             onPressed: () {},
@@ -234,9 +249,9 @@ class _BasketState extends StateBasket {
                                                           ),
                                                         ),
                                                       ));
-                                                } else if (snapshot.hasError) {
+                                                } else if (snapshot2.hasError) {
                                                   return Text(
-                                                      '${snapshot.error}');
+                                                      '${snapshot2.error}');
                                                 }
 
                                                 // By default, show a loading spinner.
