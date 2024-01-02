@@ -7,6 +7,14 @@ abstract class ProfileState extends ConsumerState<Profile> {
   ScrollController scrollController = ScrollController();
   bool private = true;
   int? id;
+  final TextEditingController textEditingController = TextEditingController();
+  double? rating;
+  bool isLoading = false;
+  void changeLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
 
   List<ExpansionTileController> controllerEx = [];
 }

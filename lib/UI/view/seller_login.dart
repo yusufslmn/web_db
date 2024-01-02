@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:web_db/UI/view/seller_panel.dart';
 import 'package:web_db/core/Utility/colors.dart';
 import 'package:web_db/core/Utility/screen_size.dart';
-import 'package:web_db/core/service/login/login_service.dart';
+import 'package:web_db/core/service/login/admin_login.dart';
 import 'package:web_db/core/service/service.dart';
 import 'package:web_db/core/settings/route_settings.dart';
 
@@ -33,9 +33,10 @@ class _SellerLoginState extends State<SellerLogin> {
     if (_formKey.currentState!.validate()) {
       String email = emailController.text;
       String password = passwordController.text;
+      IService.basicAuth = encodeBasic(email: email, password: password);
 
       changeLoading();
-      if (await login(basicAuth: IService.basicAuth)) {
+      if (await adminLogin(basicAuth: IService.basicAuth)) {
         IService.email = email;
         IService.password = password;
         print("success");

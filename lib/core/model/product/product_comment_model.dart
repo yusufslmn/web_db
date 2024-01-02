@@ -6,6 +6,7 @@ class ProductCommentModel {
   double? otherUsersRating;
   String? date;
   String? nameSurname;
+  String? sellerResponse;
 
   ProductCommentModel(
       {this.id,
@@ -13,6 +14,7 @@ class ProductCommentModel {
       this.rating,
       this.date,
       this.nameSurname,
+      this.sellerResponse,
       this.otherUsersRatingCount,
       this.otherUsersRating});
 
@@ -22,6 +24,7 @@ class ProductCommentModel {
     rating = json['rating'];
     nameSurname = json['nameSurname'];
     date = json['date'];
+    sellerResponse = json['sellerResponse'];
     otherUsersRatingCount = json['otherUsersRatingCount'];
     otherUsersRating = json['otherUsersRating'];
   }

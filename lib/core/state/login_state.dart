@@ -25,7 +25,6 @@ abstract class StateLogin extends State<Login> {
       String email = emailController.text;
       String password = passwordController.text;
       IService.basicAuth = encodeBasic(email: email, password: password);
-
       changeLoading();
       if (await login(basicAuth: IService.basicAuth)) {
         IService.email = email;

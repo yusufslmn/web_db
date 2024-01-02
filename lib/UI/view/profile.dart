@@ -31,11 +31,133 @@ class Profile extends ConsumerStatefulWidget {
 }
 
 class _ProfileState extends ProfileState with TickerProviderStateMixin {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
-      endDrawer: DrawerEnd(productId: id),
+      endDrawer: Container(
+        color: Colors.grey.shade300,
+        width: context.width(0.4),
+        height: context.height(1),
+        child: Column(
+          children: [
+            ListTile(
+              leading: IconButton(
+                  onPressed: () => scaffoldKey.currentState!.closeEndDrawer(),
+                  icon: const Icon(Icons.chevron_left)),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+              child: Text(
+                "Yoruma yıldız ver",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
+              child: RatingBar.builder(
+                initialRating: 3,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 15,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating1) {
+                  setState(() {
+                    rating = rating1;
+                  });
+                },
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
+              child: Text(
+                "Yorum",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
+              child: TextField(
+                controller: textEditingController,
+                maxLines: 5,
+                decoration: InputDecoration(
+                    labelText: "Bir yorum bırak...",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide:
+                            const BorderSide(color: PColors.mainColor))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: PColors.mainColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8))),
+                  onPressed: () async {
+                    changeLoading();
+                    PostCommentModel comment = PostCommentModel(
+                        comment: textEditingController.text,
+                        productId: id,
+                        rating: rating);
+                    await postComment(comment).then((value) {
+                      if (value) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                              title: const Text("Yorum Gönderildi"),
+                              actions: [
+                                Center(
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        scaffoldKey.currentState!
+                                            .closeEndDrawer();
+                                      },
+                                      child: const Text("Devam ediniz")),
+                                )
+                              ]),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                              title: const Text("Yorum gönderilemedi"),
+                              actions: [
+                                Center(
+                                  child: ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text("Devam ediniz")),
+                                )
+                              ]),
+                        );
+                      }
+                    });
+                    changeLoading();
+                  },
+                  child: const Text(
+                    "Yorumu gönder",
+                    style: TextStyle(color: Colors.white),
+                  )),
+            )
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -576,7 +698,7 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                                                                                     setState(() {
                                                                                       id = snapshot.data![index].items![index1].productId ?? 0;
                                                                                     });
-                                                                                    Scaffold.of(context).openEndDrawer();
+                                                                                    scaffoldKey.currentState!.openEndDrawer();
                                                                                   },
                                                                                   child: const Text(
                                                                                     "Ürünü Değerlendir",
@@ -683,148 +805,6 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class DrawerEnd extends StatefulWidget {
-  const DrawerEnd({super.key, required this.productId});
-  final int? productId;
-
-  @override
-  State<DrawerEnd> createState() => _DrawerEndState();
-}
-
-class _DrawerEndState extends State<DrawerEnd> {
-  final TextEditingController _textEditingController = TextEditingController();
-  double? rating;
-  bool isLoading = false;
-  void changeLoading() {
-    setState(() {
-      isLoading = !isLoading;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey.shade300,
-      width: context.width(0.4),
-      height: context.height(1),
-      child: Column(
-        children: [
-          ListTile(
-            leading: IconButton(
-                onPressed: () => Scaffold.of(context).closeEndDrawer(),
-                icon: const Icon(Icons.chevron_left)),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
-            child: Text(
-              "Yoruma yıldız ver",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
-            child: RatingBar.builder(
-              initialRating: 3,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemSize: 15,
-              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => const Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (rating1) {
-                setState(() {
-                  rating = rating1;
-                });
-              },
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8),
-            child: Text(
-              "Yorum",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
-            child: TextField(
-              controller: _textEditingController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                  labelText: "Bir yorum bırak...",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16),
-                      borderSide: const BorderSide(color: PColors.mainColor))),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: PColors.mainColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                onPressed: () async {
-                  changeLoading();
-                  PostCommentModel comment = PostCommentModel(
-                      comment: _textEditingController.text,
-                      productId: widget.productId,
-                      rating: rating);
-                  await postComment(comment).then((value) {
-                    if (value) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                            title: const Text("Yorum Gönderildi"),
-                            actions: [
-                              Center(
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Scaffold.of(context).closeEndDrawer();
-                                    },
-                                    child: const Text("Devam ediniz")),
-                              )
-                            ]),
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                            title: const Text("Yorum gönderilemedi"),
-                            actions: [
-                              Center(
-                                child: ElevatedButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    child: const Text("Devam ediniz")),
-                              )
-                            ]),
-                      );
-                    }
-                  });
-                  changeLoading();
-                },
-                child: const Text(
-                  "Yorumu gönder",
-                  style: TextStyle(color: Colors.white),
-                )),
-          )
-        ],
       ),
     );
   }

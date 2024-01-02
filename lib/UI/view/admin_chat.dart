@@ -28,12 +28,11 @@ class _MessagesState extends State<AdminMessages> {
       child: Scaffold(
           backgroundColor: PColors.productBackContainer,
           appBar: AppBar(
-            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.black),
             backgroundColor: Colors.transparent,
             title: Text(
               "Mesajlarım",
-              style: GoogleFonts.poppins(color: Colors.white),
+              style: GoogleFonts.poppins(color: Colors.black),
             ),
           ),
           body: _buildMessageList()),

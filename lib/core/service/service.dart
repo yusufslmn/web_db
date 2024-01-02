@@ -7,6 +7,7 @@ class IService {
   static String email = "yusufslmn@outlook.com.tr";
   static String password = "yusuf2001";
   static bool validationUser = false;
+
   static Map<String, String> baseHeader = {
     'Content-Type': 'application/json',
   };
@@ -23,6 +24,8 @@ class IService {
         return Uri.parse('${IService.baseUrl}User/Register');
       case 'login':
         return Uri.parse('${IService.baseUrl}User/CheckUser');
+      case 'adminLogin':
+        return Uri.parse('${IService.baseUrl}User/CheckAdmin');
       case 'addToBasket':
         return Uri.parse('${IService.baseUrl}Basket/AddOrUpdateBasketItem');
       case 'updateQuantity':
@@ -57,6 +60,9 @@ class IService {
         return Uri.parse('${IService.baseUrl}Product/GetShowroomProducts');
       case 'addOrUpdateCommentRating':
         return Uri.parse('${IService.baseUrl}Product/AddOrUpdateCommentRating');
+      case 'addOrUpdateCommentResponse':
+        return Uri.parse(
+            '${IService.baseUrl}Product/AddOrUpdateCommentResponse');
       case 'addComment':
         return Uri.parse('${IService.baseUrl}Product/AddComment');
       default:
@@ -70,6 +76,7 @@ enum ApiRouteName {
   register,
   getOrder,
   login,
+  adminLogin,
   sendMailHOTP,
   getUserData,
   verifyMailHOTP,
@@ -85,6 +92,7 @@ enum ApiRouteName {
   emptyBasket,
   createOrder,
   addOrUpdateCommentRating,
+  addOrUpdateCommentResponse,
   addComment,
   updateQuantity,
 }

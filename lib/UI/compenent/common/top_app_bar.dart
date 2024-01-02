@@ -90,7 +90,7 @@ class _TopAppBarState extends State<TopAppBar> {
                               ));
                         },
                         child: Text(
-                          categoryNames[index],
+                          snapshot.data![index].name ?? " ",
                           softWrap: true,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:web_db/core/Utility/colors.dart';
@@ -21,6 +23,7 @@ class _CommentsState extends State<Comments> {
   final ScrollController controller = ScrollController();
   final ExpansionTileController _expansionTileController =
       ExpansionTileController();
+
   bool isLoading = false;
   void changeLoading() {
     setState(() {
@@ -36,7 +39,6 @@ class _CommentsState extends State<Comments> {
 
   @override
   void initState() {
-    fetchProductComment(widget.productId, true);
     super.initState();
   }
 
@@ -304,7 +306,49 @@ class _CommentsState extends State<Comments> {
                                     ],
                                   )),
                             ),
-                            const Expanded(flex: 3, child: SizedBox())
+                            Expanded(
+                                flex: 3,
+                                child: snapshot.data![index].sellerResponse ==
+                                        null
+                                    ? SizedBox.shrink()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Icon(
+                                              Icons.swipe_right_alt_rounded),
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            margin: const EdgeInsets.all(20),
+                                            padding: const EdgeInsets.all(20),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                border: Border.all(
+                                                    color: PColors
+                                                        .productBackContainer)),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                const Text(
+                                                  "Destek Yanıtı",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(snapshot.data![index]
+                                                        .sellerResponse ??
+                                                    ""),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ))
                           ],
                         ),
                       ),

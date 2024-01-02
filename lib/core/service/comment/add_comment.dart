@@ -8,8 +8,9 @@ Future<bool> postComment(PostCommentModel comment) async {
   final response = await http.post(IService.url(ApiRouteName.addComment.name),
       headers: IService.basicHeader, body: jsonEncode(comment.toJson()));
   if (response.statusCode == HttpStatus.ok) {
+    print("yorum gitti");
     return true;
   } else {
-    throw Exception('Failed to load products');
+    throw Exception('yorum gitmedi');
   }
 }
