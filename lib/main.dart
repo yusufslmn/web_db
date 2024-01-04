@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:web_db/UI/view/admin/admin_login.dart';
-import 'package:web_db/UI/view/admin/admin_panel.dart';
-import 'package:web_db/UI/view/basket/basket.dart';
-import 'package:web_db/UI/view/home/home.dart';
-import 'package:web_db/UI/view/login/forget_password.dart';
-import 'package:web_db/UI/view/login/login.dart';
-import 'package:web_db/UI/view/login/register.dart';
-import 'package:web_db/UI/view/profile/profile.dart';
-import 'package:web_db/core/service/service.dart';
-import 'package:web_db/core/settings/route_settings.dart';
+import 'package:web_db/u%C4%B1/view/admin/admin_login.dart';
+import 'package:web_db/u%C4%B1/view/admin/admin_panel.dart';
+import 'package:web_db/u%C4%B1/view/basket/basket.dart';
+import 'package:web_db/u%C4%B1/view/home/home.dart';
+import 'package:web_db/u%C4%B1/view/login/forget_password.dart';
+import 'package:web_db/u%C4%B1/view/login/login.dart';
+import 'package:web_db/u%C4%B1/view/login/register.dart';
+import 'package:web_db/u%C4%B1/view/profile/profile.dart';
+import 'package:web_db/service/service.dart';
+import 'package:web_db/settings/route_settings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
