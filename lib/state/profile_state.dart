@@ -5,6 +5,7 @@ import 'package:web_db/u%C4%B1/view/profile/profile.dart';
 abstract class ProfileState extends ConsumerState<Profile> {
   PageController pageController = PageController();
   ScrollController scrollController = ScrollController();
+  ScrollController scrollController1 = ScrollController();
   bool private = true;
   int? id;
   final TextEditingController textEditingController = TextEditingController();

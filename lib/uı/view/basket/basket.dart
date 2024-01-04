@@ -108,6 +108,9 @@ class _BasketState extends StateBasket {
                                                               8.0),
                                                       child: Scrollbar(
                                                         controller: controller,
+                                                        thickness: 4,
+                                                        trackVisibility: true,
+                                                        thumbVisibility: true,
                                                         child: ListView.builder(
                                                           itemCount: snapshot2
                                                                   .data

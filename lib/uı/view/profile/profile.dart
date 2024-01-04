@@ -271,9 +271,12 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Container(
-                                    height: context.height(0.25),
+                                    height: context.height(0.28),
                                     padding: const EdgeInsets.all(8.0),
                                     child: Scrollbar(
+                                      thickness: 4,
+                                      trackVisibility: true,
+                                      thumbVisibility: true,
                                       controller: scrollController,
                                       child: ListView.builder(
                                         itemCount: snapshot.data?.length ?? 0,
@@ -452,13 +455,16 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return Container(
-                                    height: context.height(0.2),
+                                    height: context.height(0.25),
                                     padding: const EdgeInsets.all(8.0),
                                     child: Scrollbar(
-                                      controller: scrollController,
+                                      controller: scrollController1,
+                                      thickness: 4,
+                                      trackVisibility: true,
+                                      thumbVisibility: true,
                                       child: ListView.builder(
                                         itemCount: snapshot.data?.length ?? 0,
-                                        controller: scrollController,
+                                        controller: scrollController1,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context, index) =>
                                             Container(
