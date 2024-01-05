@@ -23,22 +23,24 @@ class _CategoryState extends State<AdminProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          child: Text(
+            widget.name,
+            style: const TextStyle(
+                color: PColors.mainColor,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-              child: Text(
-                widget.name,
-                style: const TextStyle(
-                    color: PColors.mainColor,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
             FutureBuilder<List<ShowroomProduct>>(
               future: fetchCategoryProduct(widget.id),
               builder: (context, snapshot) {
@@ -86,8 +88,9 @@ class _CategoryState extends State<AdminProducts> {
                                             Widget child,
                                             ImageChunkEvent? loadingProgress) {
                                           if (loadingProgress == null) {
-                                            return const Placeholder();
+                                            return child;
                                           }
+
                                           return Center(
                                             child: CircularProgressIndicator(
                                               value: loadingProgress

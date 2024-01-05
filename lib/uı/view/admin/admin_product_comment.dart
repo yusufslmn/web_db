@@ -39,6 +39,18 @@ class _AdminProductCommentState extends State<AdminProductComment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          child: Text(
+            "Ürünün Yorumları",
+            style: TextStyle(
+                color: PColors.mainColor,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: FutureBuilder<List<ProductCommentModel>>(

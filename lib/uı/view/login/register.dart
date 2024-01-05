@@ -47,6 +47,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           surname: _surnameController.text,
           password: _passwordController.text);
       if (await register(loginModel!)) {
+        print("kayıt başarılı");
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed(Routes.loginRoute);
       } else {
