@@ -2,20 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_db/u%C4%B1/view/profile/chat.dart';
+import 'package:web_db/service/chat/support_chat_service.dart';
+import 'package:web_db/u%C4%B1/view/home/support_chat.dart';
 import 'package:web_db/utility/colors.dart';
-import 'package:web_db/service/chat/chat_service.dart';
 
-class AdminChat extends StatefulWidget {
-  const AdminChat({super.key});
+class AdminMessages extends StatefulWidget {
+  const AdminMessages({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  State<AdminChat> createState() => _AdminChatState();
+  State<AdminMessages> createState() => _MessagesState();
 }
 
-class _AdminChatState extends State<AdminChat> {
-  final ChatService _chatService = ChatService();
+class _MessagesState extends State<AdminMessages> {
+  final SupportChatService _chatService = SupportChatService();
   String? userImage;
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _AdminChatState extends State<AdminChat> {
             iconTheme: const IconThemeData(color: Colors.black),
             backgroundColor: Colors.transparent,
             title: Text(
-              "Sorular",
+              "Mesajlarım",
               style: GoogleFonts.poppins(color: Colors.black),
             ),
           ),
@@ -41,12 +41,12 @@ class _AdminChatState extends State<AdminChat> {
 
   Widget _buildMessageList() {
     return StreamBuilder(
-      stream: _chatService.getAdminMessages(),
+      stream: _chatService.getAdminMessagesSupport(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.docs.isEmpty) {
             return const Center(
-              child: Text("Sorunuz bulunmamaktadir!"),
+              child: Text("Mesajiniz bulunmamaktadir!"),
             );
           }
           return ListView(
@@ -67,7 +67,7 @@ class _AdminChatState extends State<AdminChat> {
       child: ListTile(
         tileColor: PColors.mainColor,
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ChatPage(
+            builder: (context) => SupportChatPage(
                   chatId: data["chatId"],
                 ))),
         trailing: const Icon(CupertinoIcons.arrow_turn_down_right,

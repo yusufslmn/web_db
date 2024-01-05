@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:web_db/service/service.dart';
 import 'package:web_db/u%C4%B1/compenent/appBar/top_app_bar.dart';
 import 'package:cross_scroll/cross_scroll.dart';
 import 'package:web_db/u%C4%B1/compenent/home/button_image.dart';
 import 'package:web_db/u%C4%B1/compenent/home/con_decoration.dart';
 import 'package:web_db/u%C4%B1/compenent/home/top_seller.dart';
+import 'package:web_db/u%C4%B1/view/home/support_chat.dart';
 import 'package:web_db/utility/colors.dart';
 import 'package:web_db/utility/screen_size.dart';
 import 'package:web_db/state/home_state.dart';
@@ -20,34 +23,61 @@ class _HomeState extends StateHome {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CrossScroll(
-      verticalBar: const CrossScrollBar(),
-      horizontalBar: const CrossScrollBar(),
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        floatingActionButtonLocation: ExpandableFab.location,
+        floatingActionButton: ExpandableFab(
+          openButtonBuilder: RotateFloatingActionButtonBuilder(
+            child: const Icon(Icons.support_agent_outlined),
+            fabSize: ExpandableFabSize.regular,
+            foregroundColor: Colors.white,
+            backgroundColor: PColors.mainColor,
+            shape: const CircleBorder(),
+          ),
+          closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+            child: const Icon(Icons.messenger_outline_rounded),
+            fabSize: ExpandableFabSize.regular,
+            foregroundColor: Colors.white,
+            backgroundColor: PColors.mainColor,
+            shape: const CircleBorder(),
+          ),
           children: [
-            const TopAppBar(),
             Container(
-              decoration: decorationContainer(),
-              width: context.width(1),
               height: context.height(0.7),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  imageBuilder(context),
-                  rowIndicator(context),
-                ],
+              width: context.width(0.3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
               ),
-            ),
-            TopSellerProducts(
-              topSellerController: topSellerController,
-            ),
+              child: SupportChatPage(chatId: IService.basicAuth),
+            )
           ],
         ),
-      ),
-    ));
+        body: CrossScroll(
+          verticalBar: const CrossScrollBar(),
+          horizontalBar: const CrossScrollBar(),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TopAppBar(),
+                Container(
+                  decoration: decorationContainer(),
+                  width: context.width(1),
+                  height: context.height(0.7),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      imageBuilder(context),
+                      rowIndicator(context),
+                    ],
+                  ),
+                ),
+                TopSellerProducts(
+                  topSellerController: topSellerController,
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
   SizedBox imageBuilder(BuildContext context) {

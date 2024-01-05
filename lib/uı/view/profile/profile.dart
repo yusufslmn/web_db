@@ -242,7 +242,7 @@ class _ProfileState extends ProfileState with TickerProviderStateMixin {
                       Text("Siparişlerim"),
                       Text("Karşılaştırmalarım"),
                       Text("Adreslerim"),
-                      Text("Müşteri Destek"),
+                      Text("Sorularım"),
                     ]),
               ),
               SizedBox(

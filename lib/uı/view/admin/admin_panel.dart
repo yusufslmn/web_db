@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:web_db/u%C4%B1/view/admin/admin_chat.dart';
+import 'package:web_db/u%C4%B1/view/admin/admin_support_messages.dart';
 import 'package:web_db/u%C4%B1/view/admin/admin_products.dart';
 import 'package:web_db/utility/colors.dart';
 import 'package:web_db/utility/screen_size.dart';
@@ -47,6 +48,18 @@ class _SellerPanelState extends State<SellerPanel> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Gelen Sorular",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextButton(
+                onPressed: () => pushToPage(context, const AdminChat()),
+                child: const Text("Sorulara git"),
+              ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
@@ -112,7 +125,7 @@ class _SellerPanelState extends State<SellerPanel> {
             onPressed: () {
               scaffoldKey.currentState!.openDrawer();
             },
-            label: const Text("Products"),
+            label: const Text("Menü"),
             icon: const Icon(Icons.menu)),
         leadingWidth: context.width(0.1),
         actions: [

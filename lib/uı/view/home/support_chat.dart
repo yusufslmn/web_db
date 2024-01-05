@@ -4,21 +4,21 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:web_db/service/chat/support_chat_service.dart';
 import 'package:web_db/utility/colors.dart';
-import 'package:web_db/service/chat/chat_service.dart';
 import 'package:web_db/service/service.dart';
 
-class ChatPage extends ConsumerStatefulWidget {
+class SupportChatPage extends ConsumerStatefulWidget {
   final String chatId;
-  const ChatPage({super.key, required this.chatId});
+  const SupportChatPage({super.key, required this.chatId});
 
   @override
-  ConsumerState<ChatPage> createState() => _ChatPageState();
+  ConsumerState<SupportChatPage> createState() => _SupportChatPageState();
 }
 
-class _ChatPageState extends ConsumerState<ChatPage> {
+class _SupportChatPageState extends ConsumerState<SupportChatPage> {
   final TextEditingController _messageController = TextEditingController();
-  final ChatService _chatService = ChatService();
+  final SupportChatService _chatService = SupportChatService();
   final ScrollController controllerList = ScrollController();
 
   @override
@@ -34,7 +34,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   void sendMessage() async {
     if (_messageController.text.isNotEmpty) {
       await _chatService
-          .sendMessage(widget.chatId, _messageController.text)
+          .sendMessageSupport(widget.chatId, _messageController.text)
           .then((value) async {})
           .whenComplete(() => _messageController.clear());
       getEnd();
@@ -45,30 +45,28 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: PColors.productBackContainer,
+            backgroundColor: Colors.white,
             appBar: AppBar(
                 centerTitle: true,
                 title: Text(
-                  "Sorularım",
-                  style: GoogleFonts.poppins(color: Colors.black),
+                  "Canlı Destek",
+                  style: GoogleFonts.poppins(color: Colors.white),
                 ),
-                backgroundColor: Colors.transparent),
-            body: SizedBox(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: _buildMessageList(),
-                  ),
-                  _buildMessageInput()
-                ],
-              ),
+                backgroundColor: PColors.mainColor),
+            body: Column(
+              children: [
+                Expanded(
+                  child: _buildMessageList(),
+                ),
+                _buildMessageInput()
+              ],
             )));
   }
 
   //build message list
   Widget _buildMessageList() {
     return StreamBuilder(
-      stream: _chatService.getMessages(widget.chatId),
+      stream: _chatService.getMessagesSupport(widget.chatId),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
@@ -152,7 +150,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         width: 5,
       ),
       const CircleAvatar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.black,
       ),
     ];
     return Padding(
@@ -182,10 +180,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                 decoration: InputDecoration(
                     hintStyle: GoogleFonts.poppins(color: Colors.black),
                     disabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(4),
                         borderSide: const BorderSide(color: PColors.mainColor)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(4),
                         borderSide: const BorderSide(color: PColors.mainColor)),
                     hintText: 'Enter message...',
                     suffixIcon: IconButton(
@@ -196,7 +194,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                           color: PColors.mainColor,
                         )),
                     enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(4),
                         borderSide:
                             const BorderSide(color: PColors.mainColor))),
               )),
